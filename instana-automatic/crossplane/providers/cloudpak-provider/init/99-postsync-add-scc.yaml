@@ -4,7 +4,7 @@ metadata:
   name: add-scc-policy
   annotations:
     argocd.argoproj.io/hook: PostSync
-  namespace: crossplane-system
+  namespace: upbound-system
 spec:
   template:
     spec:
@@ -27,6 +27,6 @@ spec:
               result=0
               oc adm policy add-scc-to-user anyuid -z default -n crossplane-system
               result=$?
-
               exit "${result}"
       restartPolicy: Never
+      serviceAccountName: crossplane
