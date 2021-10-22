@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Deploy cloudpak - incluster](#deploy-cloudpak---incluster)
+- [Deploy Instana with crossplane](#deploy-instana-with-crossplane)
   - [Prerequisite](#prerequisite)
     - [Platform Requirements](#platform-requirements)
     - [Config Gitops and Crossplane Provider on OCP](#config-gitops-and-crossplane-provider-on-ocp)
@@ -13,7 +13,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Deploy cloudpak - incluster
+# Deploy Instana with crossplane
 
 ## Prerequisite
 
@@ -46,14 +46,14 @@ roleRef:
 
 
 Login ArgoCD entrance
-![Login entrance](https://github.com/jianh619/instana-gitops/blob/master/instana-automatic/images/ArgoCD-Interface.png)   
+![Login entrance](images/ArgoCD-Interface.png)   
 
 Login ArgoCD Username/Password
 ```
 Username: admin  
 Password: Please copy the Data value of secret "openshift-gitops-cluster" in namespace "openshift-gitops"
 ```
-![Secret data](https://github.com/jianh619/instana-gitops/blob/master/instana-automatic/images/login-argocd-user-pass.png) 
+![Secret data](images/login-argocd-user-pass.png) 
 
 **Install Crossplane Provider**
 Connect git repo   
@@ -65,7 +65,7 @@ Repository URL: REPO URL value
 Usename: Git username
 Password: Git token
 ```
-![Connect repo](https://github.com/jianh619/instana-gitops/blob/master/instana-automatic/images/argocd-connect-repo.png)   
+![Connect repo](images/argocd-connect-repo.png)   
 Create application.  
 Choose "New App" in "Applications".  
 Fill in like below, then choose "create". 
