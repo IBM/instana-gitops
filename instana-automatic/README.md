@@ -55,7 +55,8 @@ Password: Please copy the Data value of secret "openshift-gitops-cluster" in nam
 ```
 ![Secret data](images/login-argocd-user-pass.png) 
 
-**Install Crossplane Provider**
+**Install Crossplane Provider**  
+
 Connect git repo   
 Choose "Repositories" in "settings", then choose connect way, such as "Connect repo using HTTPS".  
 Fill in like below, then choose "connect".     
