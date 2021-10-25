@@ -6,9 +6,9 @@
   - [Prerequisite](#prerequisite)
     - [Platform Requirements](#platform-requirements)
     - [Config Gitops and Crossplane Provider on OCP](#config-gitops-and-crossplane-provider-on-ocp)
-      - [Login to openshift and grant argocd enough permissions](#login-to-openshift-and-grant-argocd-enough-permissions)
+    - [Login to openshift and grant argocd enough permissions](#login-to-openshift-and-grant-argocd-enough-permissions)
   - [Login to ArgoCD](#login-to-argocd)
-    - [Install Crossplane Provider](#install-crossplane-provider)
+  - [Install Crossplane Provider](#install-crossplane-provider)
   - [Deploy Instana](#deploy-instana)
     - [Create a secret storing target k8s kubeconfig](#create-a-secret-storing-target-k8s-kubeconfig)
     - [Create a configmap storing the instana settings](#create-a-configmap-storing-the-instana-settings)
@@ -28,7 +28,7 @@
 
 ### Config Gitops and Crossplane Provider on OCP
 
-#### Login to openshift and grant argocd enough permissions
+### Login to openshift and grant argocd enough permissions
 
 ```yaml
 kind: ClusterRoleBinding
@@ -55,7 +55,7 @@ Password: Please copy the Data value of secret "openshift-gitops-cluster" in nam
 ```
 ![Secret data](images/login-argocd-user-pass.png) 
 
-### Install Crossplane Provider
+## Install Crossplane Provider
 
 - Create application
 - Choose `New App` in `Applications`
