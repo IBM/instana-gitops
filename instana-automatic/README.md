@@ -2,33 +2,30 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Deploy Instana with crossplane](#deploy-instana-with-crossplane)
-  - [Prerequisite](#prerequisite)
-    - [Platform Requirements](#platform-requirements)
-    - [Config Gitops and Crossplane Provider on OCP](#config-gitops-and-crossplane-provider-on-ocp)
-      - [Login to ArgoCD](#login-to-argocd)
-      - [Install Crossplane Provider](#install-crossplane-provider)
-    - [Login to openshift and grant argocd enough permissions](#login-to-openshift-and-grant-argocd-enough-permissions)
+- [Deploy Instana with OpenShift GitOps](#deploy-instana-with-openshift-gitops)
+  - [Prerequisites](#prerequisites)
+  - [Install Crossplane Instana Provider on OpenShift](#install-crossplane-instana-provider-on-openshift)
+    - [Login to ArgoCD](#login-to-argocd)
+    - [Install Crossplane Provider](#install-crossplane-provider)
+  - [Login to OpenShift and grant Argo CD enough permissions](#login-to-openshift-and-grant-argo-cd-enough-permissions)
   - [Deploy Instana](#deploy-instana)
-    - [Create a secret storing target k8s kubeconfig](#create-a-secret-storing-target-k8s-kubeconfig)
-    - [Create a configmap storing the instana settings](#create-a-configmap-storing-the-instana-settings)
-    - [Create ArgoCD application for installing instana](#create-argocd-application-for-installing-instana)
+    - [Create secret for target k8s kubeconfig](#create-secret-for-target-k8s-kubeconfig)
+    - [Create configmap for instana settings](#create-configmap-for-instana-settings)
+    - [Create Argo CD application for installing Instana](#create-argo-cd-application-for-installing-instana)
+  - [Verify Installation](#verify-installation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Deploy Instana with crossplane
+# Deploy Instana with OpenShift GitOps
+## Prerequisites
 
-## Prerequisite
+- OpenShift 4.6+
+- Gitops Operator (Red Hat OpenShift GitOps) in OpenShift operator-hub
+- Crossplane Operator (Upbound Universal Crossplane (UXP)) in OpenShift operator-hub
 
-### Platform Requirements
+## Install Crossplane Instana Provider on OpenShift
 
-- OCP 4.6 + 
-- Gitops Operator (Red Hat OpenShift GitOps) in ocp operator-hub
-- Crossplane Operator (Upbound Universal Crossplane (UXP)) in ocp operator-hub
-
-### Config Gitops and Crossplane Provider on OCP
-
-#### Login to ArgoCD
+### Login to ArgoCD
 
 ![Login entrance](images/ArgoCD-Interface.png)   
 
@@ -38,11 +35,11 @@ Password: Please copy the Data value of secret "openshift-gitops-cluster" in nam
 ```
 ![Secret data](images/login-argocd-user-pass.png) 
 
-#### Install Crossplane Provider
+### Install Crossplane Provider
 
 - Create application
 - Choose `New App` in `Applications`
-- Fill in like below, then choose `create`
+- Input parameters as follows, then `create`
 
 ```
 GENERAL
@@ -59,10 +56,10 @@ DESTINATION
 Cluster URL: https://kubernetes.default.svc
 Namespace: upbound-system
 DIRECTORY
-DIRECTORY RECURSE: tick it
+DIRECTORY RECURSE: check it
 ```
 
-### Login to openshift and grant argocd enough permissions
+## Login to OpenShift and grant Argo CD enough permissions
 
 ```yaml
 kind: ClusterRoleBinding
@@ -81,9 +78,9 @@ roleRef:
 
 ## Deploy Instana
 
-### Create a secret storing target k8s kubeconfig
+### Create secret for target k8s kubeconfig
 
-Using the kubeconfig in this repo as example:
+Using the `kubeconfig` in this repo as example:
 
 ```shell
 kubectl create secret generic k8s-kubeconfig --from-file=credentials=<kubeconfig> -n crossplane-system
@@ -91,7 +88,7 @@ kubectl create secret generic k8s-kubeconfig --from-file=credentials=<kubeconfig
 
 **Note:** please replace the `kubeconfig` to your real file , default value: /root/.kube/config
 
-### Create a configmap storing the instana settings 
+### Create configmap for Instana settings
 
 ```shell
 kubectl create configmap instana-settings --from-file=<settings.hcl> -n crossplane-system
@@ -99,7 +96,7 @@ kubectl create configmap instana-settings --from-file=<settings.hcl> -n crosspla
 
 **Note:** please replace the `settings.hcl` to your real file address
 
-### Create ArgoCD application for installing instana
+### Create Argo CD application for installing Instana
 
 ```
 GENERAL
@@ -118,3 +115,7 @@ Namespace: upbound-system
 DIRECTORY
 DIRECTORY RECURSE: check it
 ```
+
+## Verify Installation
+
+TODO
