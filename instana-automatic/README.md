@@ -11,5 +11,5 @@
 You can use either use OpenShift GitOps or Kubernetes GitOps model to deploy Instana on a Kubernetes Cluster.
 
 Please refer to the following to decide how you want to deploy your Instana Cluster:
-- [Using Kubernetes GitOps](./install-instana-with-ocp-gitops.md)
-- [Using OpenShift GitOps](./install-instana-with-k8s-gitops.md)
+- [Using Kubernetes GitOps](./install-instana-with-k8s-gitops.md)
+- [Using OpenShift GitOps](./install-instana-with-ocp-gitops.md)
