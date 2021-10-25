@@ -6,9 +6,9 @@
   - [Prerequisite](#prerequisite)
     - [Platform Requirements](#platform-requirements)
     - [Config Gitops and Crossplane Provider on OCP](#config-gitops-and-crossplane-provider-on-ocp)
+      - [Login to ArgoCD](#login-to-argocd)
+      - [Install Crossplane Provider](#install-crossplane-provider)
     - [Login to openshift and grant argocd enough permissions](#login-to-openshift-and-grant-argocd-enough-permissions)
-  - [Login to ArgoCD](#login-to-argocd)
-  - [Install Crossplane Provider](#install-crossplane-provider)
   - [Deploy Instana](#deploy-instana)
     - [Create a secret storing target k8s kubeconfig](#create-a-secret-storing-target-k8s-kubeconfig)
     - [Create a configmap storing the instana settings](#create-a-configmap-storing-the-instana-settings)
@@ -28,24 +28,7 @@
 
 ### Config Gitops and Crossplane Provider on OCP
 
-### Login to openshift and grant argocd enough permissions
-
-```yaml
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: argocd-admin
-subjects:
-  - kind: ServiceAccount
-    name: openshift-gitops-argocd-application-controller
-    namespace: openshift-gitops
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-```
-
-## Login to ArgoCD
+#### Login to ArgoCD
 
 ![Login entrance](images/ArgoCD-Interface.png)   
 
@@ -55,7 +38,7 @@ Password: Please copy the Data value of secret "openshift-gitops-cluster" in nam
 ```
 ![Secret data](images/login-argocd-user-pass.png) 
 
-## Install Crossplane Provider
+#### Install Crossplane Provider
 
 - Create application
 - Choose `New App` in `Applications`
@@ -77,6 +60,23 @@ Cluster URL: https://kubernetes.default.svc
 Namespace: upbound-system
 DIRECTORY
 DIRECTORY RECURSE: tick it
+```
+
+### Login to openshift and grant argocd enough permissions
+
+```yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: argocd-admin
+subjects:
+  - kind: ServiceAccount
+    name: openshift-gitops-argocd-application-controller
+    namespace: openshift-gitops
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
 ```
 
 ## Deploy Instana
