@@ -112,7 +112,7 @@ spec:
                 name: ingress-core-svc
                 namespace: instana-core
               spec:
-                host: instana.apps.${base}
+                host: instana.${base}
                 port:
                   targetPort: 8443
                 tls:
