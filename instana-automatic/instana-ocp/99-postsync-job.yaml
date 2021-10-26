@@ -21,7 +21,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -eo pipefail
+
               set -x
               result=0
 
