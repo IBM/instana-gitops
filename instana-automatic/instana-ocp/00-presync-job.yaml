@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: add-scc-policy
   annotations:
-    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
