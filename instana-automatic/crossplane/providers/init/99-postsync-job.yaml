@@ -45,16 +45,18 @@ spec:
               if [[ ${result} != 0 ]]; then 
                 exit "${result}"
               fi
-              verify=$(oc get sa crossplane -n crossplane-system 2>/dev/null)
-              if [[ $? != 0 ]]; then
-                echo 'Serviceaccount "crossplane" not found in namespace crossplane-system . Create it '
-                oc create sa crossplane -n crossplane-system
-                result=$?
-                if [[ ${result} !=0 ]]; then
-                  echo 'Error to create serviceacount "crossplane" in namespace crossplane-system '
-                  exit ${result}
-                fi
-              fi
+
+              cat << EOF | oc apply -f -
+              apiVersion: v1
+              kind: ServiceAccount
+              metadata:
+                name: crossplane
+                namespace: crossplane-system
+              EOF
+              result=$?
+              if [[ ${result} != 0 ]]; then 
+                exit "${result}"
+              fi              
               exit 0
       restartPolicy: Never
       serviceAccountName: crossplane
