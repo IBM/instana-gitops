@@ -15,7 +15,7 @@ spec:
               memory: "64Mi"
               cpu: "250m"
             limits:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "500m"
           command:
             - /bin/sh
@@ -112,7 +112,7 @@ spec:
                 name: ingress-core-svc
                 namespace: instana-core
               spec:
-                host: instana.apps.shul.cp.fyre.ibm.com
+                host: instana.apps.${base}
                 port:
                   targetPort: 8443
                 tls:
@@ -145,7 +145,7 @@ spec:
                 name: unit-ingress-svc
                 namespace: instana-units
               spec:
-                host: prod-instana.instana.apps.shul.cp.fyre.ibm.com
+                host: prod-instana.instana.${base}
                 port:
                   targetPort: 8443
                 tls:
