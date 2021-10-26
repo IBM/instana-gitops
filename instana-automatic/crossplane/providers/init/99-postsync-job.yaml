@@ -45,7 +45,7 @@ spec:
               if [[ ${result} != 0 ]]; then 
                 exit "${result}"
               fi
-              oc get sa crossplane -n crossplane-system
+              oc get sa crossplane -n crossplane-system 2>/dev/null
               if [[ $? != 0 ]]; then
                 echo 'Serviceaccount "crossplane" not found in namespace crossplane-system . Create it '
                 oc create sa crossplane -n crossplane-system
