@@ -25,18 +25,45 @@ spec:
               set -x
               result=0
 
+              while : ; do
+                oc get sa instana-core -n instana-core
+                if [[ $? != 0 ]]; then
+                  echo 'Serviceaccount "instana-core" not found in namespace instana-core'
+                  sleep 10s
+                else 
+                  break
+                fi
+              done
               oc adm policy add-scc-to-user anyuid -z instana-core -n instana-core
               result=$?
               if [[ ${result} != 0 ]]; then 
                 exit "${result}"
               fi
 
+              while : ; do
+                oc get sa default -n instana-core
+                if [[ $? != 0 ]]; then
+                  echo 'Serviceaccount "default" not found in namespace instana-core'
+                  sleep 10s
+                else 
+                  break
+                fi
+              done
               oc adm policy add-scc-to-user anyuid -z default -n instana-core
               result=$?
               if [[ ${result} != 0 ]]; then 
                 exit "${result}"
               fi
 
+              while : ; do
+                oc get sa default -n instana-units
+                if [[ $? != 0 ]]; then
+                  echo 'Serviceaccount "default" not found in namespace instana-units'
+                  sleep 10s
+                else 
+                  break
+                fi
+              done
               oc adm policy add-scc-to-user anyuid -z default -n instana-units
               result=$?
               if [[ ${result} != 0 ]]; then 

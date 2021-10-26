@@ -28,6 +28,16 @@ spec:
               base=`oc get ingresses.config/cluster -o jsonpath={.spec.domain}`
               echo ${base}
 
+              while : ; do
+                oc get ns instana-core
+                if [[ $? != 0 ]]; then
+                  echo 'Namespace "instana-core" not found'
+                  sleep 10s
+                else 
+                  break
+                fi
+              done
+
               cat << EOF | oc apply -f -
               apiVersion: route.openshift.io/v1
               kind: Route
@@ -74,6 +84,15 @@ spec:
                 exit "${result}"
               fi                            
 
+              while : ; do
+                oc get ns instana-units
+                if [[ $? != 0 ]]; then
+                  echo 'Namespace "instana-units" not found'
+                  sleep 10s
+                else 
+                  break
+                fi
+              done
               cat << EOF | oc apply -f -
               apiVersion: route.openshift.io/v1
               kind: Route
