@@ -99,7 +99,7 @@ spec:
               exit "${result}"
             volumeMounts:
             - mountPath: /root/.kube
-              name: config              
+              name: kubeconfig              
       restartPolicy: Never
       serviceAccountName: crossplane
       volumes:
