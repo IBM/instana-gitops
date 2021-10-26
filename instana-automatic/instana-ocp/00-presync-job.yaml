@@ -24,11 +24,6 @@ spec:
               set -eo pipefail
               set -x
               result=0
-              oc adm policy add-scc-to-user anyuid -z default -n crossplane-system
-              result=$?
-              if [[ ${result} != 0 ]]; then 
-                exit "${result}"
-              fi
 
               oc adm policy add-scc-to-user anyuid -z instana-core -n instana-core
               result=$?
