@@ -19,7 +19,7 @@ spec:
       kind: Application
   project: default
   source:
-    path: config/instana
+    path: config/argocd-apps/instana
     repoURL: {{.Values.repoURL}}
   syncPolicy:
     automated:

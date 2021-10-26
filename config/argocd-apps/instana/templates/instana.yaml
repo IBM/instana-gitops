@@ -3,7 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   creationTimestamp: null
-  name: crossplane-app
+  name: instana-app
   namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/sync-wave: "100"
@@ -19,7 +19,7 @@ spec:
       kind: Application
   project: default
   source:
-    path: config/argocd-apps/crossplane
+    path: config/instana
     repoURL: {{.Values.repoURL}}
   syncPolicy:
     automated:
