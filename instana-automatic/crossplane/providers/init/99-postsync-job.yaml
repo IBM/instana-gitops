@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: scc-instana-job
   annotations:
-    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
@@ -23,13 +23,13 @@ spec:
             - |
               set -eo pipefail
               set -x
-              result=0
 
               version=`oc version |grep Server |awk '{print $3}' |tr -d ' '`
               if [ ${#version} -gt 1 ] ; then
                 echo "ocp version ${version} "
               else 
                 echo "this is an k8s , no need to execute following commands"
+                exit 0
               fi
               while : ; do
                 oc get sa default -n crossplane-system
@@ -45,7 +45,16 @@ spec:
               if [[ ${result} != 0 ]]; then 
                 exit "${result}"
               fi
-
-              exit "${result}"
+              oc get sa crossplane -n crossplane-system
+              if [[ $? != 0 ]]; then
+                echo 'Serviceaccount "crossplane" not found in namespace crossplane-system . Create it '
+                oc create sa crossplane -n crossplane-system
+                result=$?
+                if [[ ${result} !=0 ]]; then
+                  echo 'Error to create serviceacount "crossplane" in namespace crossplane-system '
+                  exit ${result}
+                fi
+              fi
+              exit 0
       restartPolicy: Never
       serviceAccountName: crossplane
