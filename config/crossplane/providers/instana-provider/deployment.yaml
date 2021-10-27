@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-provider-instana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: provider-instana
+  template:
+    metadata:
+      name: provider-instana
+      labels: 
+        app: provider-instana
+    spec:
+      containers:
+      - image: quay.io/hjwilson19560/provider-instana:latest
+        name: provider-instana
+      serviceAccount: crossplane
+      serviceAccountName: crossplane
+
