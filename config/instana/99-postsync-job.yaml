@@ -25,6 +25,14 @@ spec:
               set -x
               result=0
 
+              version=`oc version |grep Server |awk '{print $3}' |tr -d ' '`
+              if [ ${#version} -gt 1 ] ; then
+                echo "ocp version ${version} "
+              else 
+                echo "this is an k8s , no need to execute following commands"
+                exit 0
+              fi
+              
               while : ; do
                 oc get sa instana-core -n instana-core
                 if [[ $? != 0 ]]; then

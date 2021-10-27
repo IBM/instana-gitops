@@ -111,7 +111,7 @@ Input parameters as follows when creating application:
   - path: instana-automatic/instana
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
-  - Namespace: upbound-system
+  - Namespace: crossplane-system
 - DIRECTORY
   - DIRECTORY RECURSE: check it
 
