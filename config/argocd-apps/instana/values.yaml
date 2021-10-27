@@ -1,4 +1,4 @@
 ---
 repoURL: https://github.com/cloud-pak-gitops/instana-gitops
 metadata:
-  argocd_namespace: openshift-gitops
+  argocd_app_namespace: openshift-gitops
