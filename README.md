@@ -2,39 +2,15 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Instana GitOps](#instana-gitops)
-- [Development](#development)
-  - [Prereqs](#prereqs)
-- [Tutorial for Kubernetes Cluster](#tutorial-for-kubernetes-cluster)
-  - [Install KIND Cluster](#install-kind-cluster)
-  - [Install ArgoCD](#install-argocd)
-  - [Create Application in ArgoCD](#create-application-in-argocd)
-  - [Check Instana](#check-instana)
-  - [Login to Instana](#login-to-instana)
-- [Tutorial for OpenShift Cluster](#tutorial-for-openshift-cluster)
+- [Deploy Instana with GitOps](#deploy-instana-with-gitops)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Instana GitOps
 
-This repo is the helm chart for deploying [Instana](https://www.instana.com/) with GitOps.
+# Deploy Instana with GitOps
 
-# Development
+You can use either use OpenShift GitOps or Kubernetes GitOps model to deploy Instana on a Kubernetes or OpenShift Cluster.
 
-## Prereqs
-
-- Helm 3.7.1
-
-# Tutorial for Kubernetes Cluster
-
-## Install KIND Cluster
-
-## Install ArgoCD
-
-## Create Application in ArgoCD
-
-## Check Instana
-
-## Login to Instana
-
-# Tutorial for OpenShift Cluster
+Please refer to the following to decide how you want to deploy your Instana Cluster:
+- [Using Kubernetes GitOps](./docs/install-instana-with-k8s-gitops.md)
+- [Using OpenShift GitOps](./docs/install-instana-with-ocp-gitops.md)
