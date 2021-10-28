@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "100"
 spec:
   destination:
-    namespace: {{.Values.metadata.argocd_app_namespace}}
+    namespace: {{.Values.metadata.instana_provider_namespace}}
     server: https://kubernetes.default.svc
   ignoreDifferences:
     - group: argoproj.io
@@ -18,8 +18,11 @@ spec:
       kind: Application
   project: default
   source:
-    path: config/argocd-apps/crossplane
+    path: config/crossplane
     repoURL: {{.Values.repoURL}}
+    directory:
+      jsonnet: {}
+      recurse: true
   syncPolicy:
     automated:
       prune: true
