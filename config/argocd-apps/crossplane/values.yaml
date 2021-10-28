@@ -2,3 +2,4 @@
 repoURL: https://github.com/cloud-pak-gitops/instana-gitops
 metadata:
   argocd_app_namespace: openshift-gitops
+  instana_provider_namespace: crossplane-system
