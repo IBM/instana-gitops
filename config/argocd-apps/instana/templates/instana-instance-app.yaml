@@ -20,6 +20,9 @@ spec:
   source:
     path: config/instana
     repoURL: {{.Values.repoURL}}
+    directory:
+      jsonnet: {}
+      recurse: true
   syncPolicy:
     automated:
       prune: true
