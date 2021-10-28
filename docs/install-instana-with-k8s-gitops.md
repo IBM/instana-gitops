@@ -144,18 +144,20 @@ kubectl create configmap instana-settings --from-file=<settings.hcl> -n crosspla
 
 Input parameters as follows when creating application:
 - GENERAL
-  - Application Name: instana
+  - Application Name: instana-parent-app
   - Project: default
   - SYNC POLICY: Automatic
 - SOURCE
   - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: instana-automatic/instana
+  - path: config/argocd-apps/instana
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
-  - Namespace: crossplane-system
-- DIRECTORY
-  - DIRECTORY RECURSE: check it
+  - Namespace: argocd
+  - HELM
+    - metadata.argocd_app_namespace: argocd
+    - metadata.instana_namespace: crossplane-system
+    - repoURL: https://github.com/cloud-pak-gitops/instana-gitops
 
 ## Verify Instana Installation
 
