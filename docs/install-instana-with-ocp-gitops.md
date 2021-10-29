@@ -16,6 +16,9 @@
     - [Create configmap for Instana settings](#create-configmap-for-instana-settings)
     - [Create Argo CD application for installing Instana](#create-argo-cd-application-for-installing-instana)
   - [Verify Instana Installation](#verify-instana-installation)
+      - [CLI Verify](#cli-verify-1)
+      - [UI Verify](#ui-verify-1)
+  - [Access Instana UI](#access-instana-ui)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -166,10 +169,10 @@ Input parameters as follows when creating application:
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: openshift-gitops
-  - HELM
-    - metadata.argocd_app_namespace: openshift-gitops
-    - metadata.instana_namespace: crossplane-system
-    - repoURL: https://github.com/cloud-pak-gitops/instana-gitops
+- HELM
+  - metadata.argocd_app_namespace: openshift-gitops
+  - metadata.instana_namespace: crossplane-system
+  - repoURL: https://github.com/cloud-pak-gitops/instana-gitops
 
 ## Verify Instana Installation
 
