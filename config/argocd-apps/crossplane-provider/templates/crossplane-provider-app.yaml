@@ -5,7 +5,9 @@ metadata:
   name: crossplane-provider-app
   namespace: {{.Values.metadata.argocd_app_namespace}}
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "200"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: {{.Values.metadata.instana_provider_namespace}}
@@ -18,7 +20,7 @@ spec:
       kind: Application
   project: default
   source:
-    path: config/crossplane
+    path: config/crossplane-provider
     repoURL: {{.Values.repoURL}}
     directory:
       jsonnet: {}
