@@ -5,7 +5,7 @@ metadata:
   name: instana-instance-app
   namespace: {{.Values.metadata.argocd_app_namespace}}
   annotations:
-    argocd.argoproj.io/sync-wave: "110"
+    argocd.argoproj.io/sync-wave: "300"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

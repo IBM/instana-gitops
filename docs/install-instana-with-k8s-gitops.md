@@ -59,7 +59,7 @@ crossplane-provider-instana-6c578cd958-6fqlq   1/1     Running     0          2m
   - SOURCE
     - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
     - Revision: HEAD
-    - Path: config/argocd-apps/crossplane
+    - Path: config/argocd-apps/crossplane-provider
   - DESTINATION
     - Cluster URL: https://kubernetes.default.svc
     - Namespace: argocd
