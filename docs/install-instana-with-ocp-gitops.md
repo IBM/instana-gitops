@@ -69,7 +69,7 @@ roleRef:
   - SOURCE
     - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
     - Revision: HEAD
-    - Path: config/argocd-apps/crossplane
+    - Path: config/argocd-apps/crossplane-provider
   - DESTINATION
     - Cluster URL: https://kubernetes.default.svc
     - Namespace: openshift-gitops
