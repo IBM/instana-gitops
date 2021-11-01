@@ -72,7 +72,7 @@ roleRef:
   - SOURCE
     - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
     - Revision: HEAD
-    - Path: config/argocd-apps/crossplane-provider
+    - Path: config/argocd-apps/all-in-one/crossplane-provider-app.yaml
   - DESTINATION
     - Cluster URL: https://kubernetes.default.svc
     - Namespace: openshift-gitops
@@ -165,7 +165,7 @@ Input parameters as follows when creating application:
 - SOURCE
   - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: config/argocd-apps/instana
+  - path: config/argocd-apps/all-in-one/instana-instance-app.yaml
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: openshift-gitops
