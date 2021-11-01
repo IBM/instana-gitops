@@ -13,6 +13,11 @@
   - [Create configmap for Instana settings](#create-configmap-for-instana-settings)
   - [Create Argo CD application for installing Instana](#create-argo-cd-application-for-installing-instana)
 - [Verify Instana Installation](#verify-instana-installation)
+  - [CLI Verify](#cli-verify-1)
+  - [UI Verify](#ui-verify-1)
+- [Access Instana UI](#access-instana-ui)
+  - [Setup Apache](#setup-apache)
+  - [Access UI](#access-ui)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -161,7 +166,7 @@ Input parameters as follows when creating application:
 
 ## Verify Instana Installation
 
-#### CLI Verify
+### CLI Verify
 
 After instana instance was deployed, you can run the command as follows to check:
 
@@ -235,7 +240,7 @@ tu-instana-prod-ui-backend-65d5c945c4-x8bkz                 1/1     Running   0 
 ui-client-75dddbff9b-9njcm                                  1/1     Running   0          4h26m
 ```
 
-#### UI Verify
+### UI Verify
 
 From Argo CD UI, you will be able to see there are another two applications added as follows:
 
