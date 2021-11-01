@@ -1,0 +1,7 @@
+---
+spec:
+  instanaVersion: 209-1
+  nfsServerHost: in-kind-instana-db.fyre.ibm.com
+  settingsConfigmapNS: crossplane-system
+  settingsConfigmapName: instana-settings
+  providerConfigRef: instana-provider-config
