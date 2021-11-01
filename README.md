@@ -3,14 +3,22 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Deploy Instana with GitOps](#deploy-instana-with-gitops)
+  - [Supported Instana Versions](#supported-instana-versions)
+  - [Tutorial](#tutorial)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # Deploy Instana with GitOps
 
-You can use either use OpenShift GitOps or Kubernetes GitOps model to deploy Instana on a Kubernetes or OpenShift Cluster.
+This repo is about using either use OpenShift GitOps or Kubernetes GitOps model to deploy Instana on a Kubernetes or OpenShift Cluster.
+## Supported Instana Versions
 
-Please refer to the following to decide how you want to deploy your Instana Cluster:
+- [209-1](https://www.instana.com/docs/releases/on_prem_k8s_notes/build_209/#209-1)
+
+## Tutorial
+
+Please refer to the following tutorial to decide how you want to deploy your Instana Cluster:
+
 - [Using Kubernetes GitOps](./docs/install-instana-with-k8s-gitops.md)
 - [Using OpenShift GitOps](./docs/install-instana-with-ocp-gitops.md)
