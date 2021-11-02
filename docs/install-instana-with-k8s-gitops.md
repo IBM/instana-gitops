@@ -5,9 +5,9 @@
 - [Prerequisites](#prerequisites)
   - [Deploy Instana to Kubernetes Cluster](#deploy-instana-to-kubernetes-cluster)
   - [Deploy Instana to OpenShift Cluster](#deploy-instana-to-openshift-cluster)
-- [Install Crossplane Instana Provider on Kubernetes](#install-crossplane-instana-provider-on-kubernetes)
-  - [Create Application to Install Crossplane Instana Provider](#create-application-to-install-crossplane-instana-provider)
-  - [Verify Crossplane Provider](#verify-crossplane-provider)
+- [Install Infra (Crossplane and Crossplane Instana Provider)](#install-infra-crossplane-and-crossplane-instana-provider)
+  - [Create Application to Install Infra](#create-application-to-install-infra)
+  - [Verify Infra](#verify-infra)
     - [CLI Verify](#cli-verify)
     - [UI Verify](#ui-verify)
 - [Deploy Instana](#deploy-instana)
@@ -33,13 +33,13 @@ This is a tutorial for how to deploy Instana with Kubernetes GitOps.
   - With at least 16 Core, 64G Memory and 250G Disk
   - All DB container are ready and running on the DB Host
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#6-create-an-application-from-a-git-repository) was deployed in the Kubernetes Cluster
-- [Crossplane](https://crossplane.io/docs/v1.4/getting-started/install-configure.html) was deployed in the Kubernetes Cluster
-
 ### Deploy Instana to Kubernetes Cluster
+
 - Kubernetes Cluster
   - With at least 16 Core, 64G Memory and 250G Disk
 
 ### Deploy Instana to OpenShift Cluster
+
 - OpenShift 4.6+
   - With at least 16 Core, 64G Memory and 250G Disk
 
@@ -56,16 +56,10 @@ argocd-redis-5b6967fdfc-l4r4k        1/1     Running   0          5d20h
 argocd-repo-server-98598b6c7-v6rmj   1/1     Running   0          5d20h
 argocd-server-5b4b7b868b-sxkgl       1/1     Running   0          5d20h
 ```
-```console
-root@gyliu-dev21:~# kubectl get po -n crossplane-system
-NAME                                           READY   STATUS      RESTARTS   AGE
-crossplane-6584bb9489-7lf7x                    1/1     Running     0          4m19s
-crossplane-provider-instana-6c578cd958-6fqlq   1/1     Running     0          2m24s
-```
 
-## Install Crossplane Instana Provider on Kubernetes
+## Install Infra (Crossplane and Crossplane Instana Provider)
 
-### Create Application to Install Crossplane Instana Provider
+### Create Application to Install Infra
 
 - Create application
 - Choose `New App` in `Applications`
@@ -77,7 +71,7 @@ crossplane-provider-instana-6c578cd958-6fqlq   1/1     Running     0          2m
   - SOURCE
     - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
     - Revision: HEAD
-    - Path: config/argocd-apps/crossplane-provider-app.yaml
+    - Path: config/argocd-apps/infra
   - DESTINATION
     - Cluster URL: https://kubernetes.default.svc
     - Namespace: argocd
@@ -86,7 +80,7 @@ crossplane-provider-instana-6c578cd958-6fqlq   1/1     Running     0          2m
     - metadata.instana_provider_namespace: crossplane-system
     - repoURL: https://github.com/cloud-pak-gitops/instana-gitops
 
-### Verify Crossplane Provider
+### Verify Infra
 
 #### CLI Verify
 
@@ -168,7 +162,7 @@ Input parameters as follows when creating application:
 - SOURCE
   - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: config/argocd-apps/instana-instance-app.yaml
+  - path: config/argocd-apps/instana
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: argocd

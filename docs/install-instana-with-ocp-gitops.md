@@ -6,7 +6,7 @@
   - [Prerequisites](#prerequisites)
     - [Deploy Instana to Kubernetes Cluster](#deploy-instana-to-kubernetes-cluster)
     - [Deploy Instana to OpenShift Cluster](#deploy-instana-to-openshift-cluster)
-  - [Install Crossplane Instana Provider on OpenShift](#install-crossplane-instana-provider-on-openshift)
+  - [Install Infra (Crossplane and Crossplane Instana Provider)](#install-infra-crossplane-and-crossplane-instana-provider)
     - [Login to Argo CD](#login-to-argo-cd)
   - [Login to OpenShift and grant Argo CD enough permissions](#login-to-openshift-and-grant-argo-cd-enough-permissions)
     - [Install Crossplane Instana Provider](#install-crossplane-instana-provider)
@@ -43,7 +43,7 @@
 - OpenShift 4.6+
   - With at least 16 Core, 64G Memory and 250G Disk
 
-## Install Crossplane Instana Provider on OpenShift
+## Install Infra (Crossplane and Crossplane Instana Provider)
 
 ### Login to Argo CD
 
@@ -85,7 +85,7 @@ roleRef:
   - SOURCE
     - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
     - Revision: HEAD
-    - Path: config/argocd-apps/crossplane-provider-app.yaml
+    - Path: config/argocd-apps/infra
   - DESTINATION
     - Cluster URL: https://kubernetes.default.svc
     - Namespace: openshift-gitops
@@ -178,7 +178,7 @@ Input parameters as follows when creating application:
 - SOURCE
   - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: config/argocd-apps/instana-instance-app.yaml
+  - path: config/argocd-apps/instana
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: openshift-gitops
