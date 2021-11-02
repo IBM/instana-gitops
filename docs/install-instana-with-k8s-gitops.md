@@ -64,7 +64,7 @@ crossplane-provider-instana-6c578cd958-6fqlq   1/1     Running     0          2m
   - SOURCE
     - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
     - Revision: HEAD
-    - Path: config/argocd-apps/all-in-one/crossplane-provider-app.yaml
+    - Path: config/argocd-apps/crossplane-provider-app.yaml
   - DESTINATION
     - Cluster URL: https://kubernetes.default.svc
     - Namespace: argocd
@@ -155,7 +155,7 @@ Input parameters as follows when creating application:
 - SOURCE
   - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: config/argocd-apps/all-in-one/instana-instance-app.yaml
+  - path: config/argocd-apps/instana-instance-app.yaml
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: argocd
