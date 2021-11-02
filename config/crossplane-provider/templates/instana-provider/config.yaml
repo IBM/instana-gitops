@@ -1,7 +1,8 @@
+---
 apiVersion: instana.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
-  name: instana-provider-config 
+  name: instana-provider-config
 spec:
   credentials:
     source: Secret
