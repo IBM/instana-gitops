@@ -1,3 +1,4 @@
+---
 apiVersion: instana.crossplane.io/v1alpha1
 kind: Instana
 metadata:
