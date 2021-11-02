@@ -6,7 +6,6 @@ metadata:
 spec:
   finalizers:
   - kubernetes
-
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -15,8 +14,6 @@ metadata:
   namespace: {{.Values.metadata.argocd_app_namespace}}
   annotations:
     argocd.argoproj.io/sync-wave: "100"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: {{.Values.metadata.crossplane_namespace}}
