@@ -3,6 +3,8 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Prerequisites](#prerequisites)
+  - [Deploy Instana to Kubernetes Cluster](#deploy-instana-to-kubernetes-cluster)
+  - [Deploy Instana to OpenShift Cluster](#deploy-instana-to-openshift-cluster)
 - [Install Crossplane Instana Provider on Kubernetes](#install-crossplane-instana-provider-on-kubernetes)
   - [Create Application to Install Crossplane Instana Provider](#create-application-to-install-crossplane-instana-provider)
   - [Verify Crossplane Provider](#verify-crossplane-provider)
@@ -26,9 +28,20 @@ This is a tutorial for how to deploy Instana with Kubernetes GitOps.
 
 ## Prerequisites
 
-- Kubernetes Cluster
+- Kubernetes Cluster for KIND
+- Instana DB Host
+  - With at least 16 Core, 64G Memory and 250G Disk
+  - All DB container are ready and running on the DB Host
 - [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#6-create-an-application-from-a-git-repository) was deployed in the Kubernetes Cluster
 - [Crossplane](https://crossplane.io/docs/v1.4/getting-started/install-configure.html) was deployed in the Kubernetes Cluster
+
+### Deploy Instana to Kubernetes Cluster
+- Kubernetes Cluster
+  - With at least 16 Core, 64G Memory and 250G Disk
+
+### Deploy Instana to OpenShift Cluster
+- OpenShift 4.6+
+  - With at least 16 Core, 64G Memory and 250G Disk
 
 **NOTE:** If you do not have such Kubernetes Cluster, please refer to [GitOps Quick Start with Kubernetes KIND Cluster](https://github.com/cloud-pak-gitops/community/blob/main/gitops-quick-start-with-kind.md#gitops-quick-start-with-kubernetes-kind-cluster) for settting up Argo CD with a Kubernetes KIND Cluster.
 
