@@ -1,0 +1,6 @@
+---
+repoURL: https://github.com/cloud-pak-gitops/instana-gitops
+metadata:
+  argocd_app_namespace: openshift-gitops
+  crossplane_namespace: crossplane-system
+  instana_provider_namespace: crossplane-system
