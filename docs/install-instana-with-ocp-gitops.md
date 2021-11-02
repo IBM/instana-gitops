@@ -4,6 +4,8 @@
 
 - [Deploy Instana with OpenShift GitOps](#deploy-instana-with-openshift-gitops)
   - [Prerequisites](#prerequisites)
+    - [Deploy Instana to Kubernetes Cluster](#deploy-instana-to-kubernetes-cluster)
+    - [Deploy Instana to OpenShift Cluster](#deploy-instana-to-openshift-cluster)
   - [Install Crossplane Instana Provider on OpenShift](#install-crossplane-instana-provider-on-openshift)
     - [Login to Argo CD](#login-to-argo-cd)
   - [Login to OpenShift and grant Argo CD enough permissions](#login-to-openshift-and-grant-argo-cd-enough-permissions)
@@ -29,6 +31,17 @@
 - OpenShift 4.6+
 - Gitops Operator (Red Hat OpenShift GitOps) in OpenShift operator-hub
 - Crossplane Operator (Upbound Universal Crossplane (UXP)) in OpenShift operator-hub
+- Instana DB Host
+  - With at least 16 Core, 64G Memory and 250G Disk
+  - All DB container are ready and running on the DB Host
+
+### Deploy Instana to Kubernetes Cluster
+- Kubernetes Cluster
+  - With at least 16 Core, 64G Memory and 250G Disk
+
+### Deploy Instana to OpenShift Cluster
+- OpenShift 4.6+
+  - With at least 16 Core, 64G Memory and 250G Disk
 
 ## Install Crossplane Instana Provider on OpenShift
 
