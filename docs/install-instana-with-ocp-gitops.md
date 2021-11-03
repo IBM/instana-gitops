@@ -178,14 +178,12 @@ Input parameters as follows when creating application:
 - SOURCE
   - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: config/argocd-apps/instana
+  - path: config/instana
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: openshift-gitops
 - HELM
-  - metadata.argocd_app_namespace: openshift-gitops
-  - metadata.instana_namespace: crossplane-system
-  - repoURL: https://github.com/cloud-pak-gitops/instana-gitops
+  - Update based on your cluster configuration
 
 ## Verify Instana Installation
 
