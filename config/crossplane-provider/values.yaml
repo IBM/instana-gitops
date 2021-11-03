@@ -1,7 +1,1 @@
 ---
-spec:
-  credentials:
-    secretRef: 
-      namespace: crossplane-system
-      name: k8s-kubeconfig
-      key: credentials  

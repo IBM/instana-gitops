@@ -1,5 +1,7 @@
 ---
 spec:
+  kubeConfigSecretNS: crossplane-system
+  kubeConfigSecretName: k8s-kubeconfig
   instanaVersion: 209-1
   nfsServerHost: in-kind-instana-db.fyre.ibm.com
   settingsConfigmapNS: crossplane-system
