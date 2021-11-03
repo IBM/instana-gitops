@@ -2,27 +2,29 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Prerequisites](#prerequisites)
-  - [Deploy Instana to Kubernetes Cluster](#deploy-instana-to-kubernetes-cluster)
-  - [Deploy Instana to OpenShift Cluster](#deploy-instana-to-openshift-cluster)
-- [Install Infra (Crossplane and Crossplane Instana Provider)](#install-infra-crossplane-and-crossplane-instana-provider)
-  - [Create Application to Install Infra](#create-application-to-install-infra)
-  - [Verify Infra](#verify-infra)
-    - [CLI Verify](#cli-verify)
-    - [UI Verify](#ui-verify)
-- [Deploy Instana](#deploy-instana)
-  - [Create secret for target k8s kubeconfig](#create-secret-for-target-k8s-kubeconfig)
-  - [Create configmap for Instana settings](#create-configmap-for-instana-settings)
-  - [Create Argo CD application for installing Instana](#create-argo-cd-application-for-installing-instana)
-- [Verify Instana Installation](#verify-instana-installation)
-  - [CLI Verify](#cli-verify-1)
-  - [UI Verify](#ui-verify-1)
-- [Access Instana UI](#access-instana-ui)
-  - [Setup Apache](#setup-apache)
-  - [Access UI](#access-ui)
+- [Deploy Instana with Kubernetes GitOps](#deploy-instana-with-kubernetes-gitops)
+  - [Prerequisites](#prerequisites)
+    - [Deploy Instana to Kubernetes Cluster](#deploy-instana-to-kubernetes-cluster)
+    - [Deploy Instana to OpenShift Cluster](#deploy-instana-to-openshift-cluster)
+  - [Install Infra (Crossplane and Crossplane Instana Provider)](#install-infra-crossplane-and-crossplane-instana-provider)
+    - [Create Application to Install Infra](#create-application-to-install-infra)
+    - [Verify Infra](#verify-infra)
+      - [CLI Verify](#cli-verify)
+      - [UI Verify](#ui-verify)
+  - [Deploy Instana](#deploy-instana)
+    - [Create secret for target k8s kubeconfig](#create-secret-for-target-k8s-kubeconfig)
+    - [Create configmap for Instana settings](#create-configmap-for-instana-settings)
+    - [Create Argo CD application for installing Instana](#create-argo-cd-application-for-installing-instana)
+  - [Verify Instana Installation](#verify-instana-installation)
+    - [CLI Verify](#cli-verify-1)
+    - [UI Verify](#ui-verify-1)
+  - [Access Instana UI](#access-instana-ui)
+    - [Setup Apache](#setup-apache)
+    - [Access UI](#access-ui)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Deploy Instana with Kubernetes GitOps
 
 This is a tutorial for how to deploy Instana with Kubernetes GitOps.
 
