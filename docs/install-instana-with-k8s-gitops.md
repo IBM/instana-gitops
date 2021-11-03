@@ -160,16 +160,14 @@ Input parameters as follows when creating application:
   - Project: default
   - SYNC POLICY: Automatic
 - SOURCE
-  - REPO URL : https://github.com/cloud-pak-gitops/instana-gitops
+  - REPO URL: https://github.com/cloud-pak-gitops/instana-gitops
   - Target version: HEAD
-  - path: config/argocd-apps/instana
+  - path: config/instana
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
   - Namespace: argocd
 - HELM
-  - metadata.argocd_app_namespace: argocd
-  - metadata.instana_namespace: crossplane-system
-  - repoURL: https://github.com/cloud-pak-gitops/instana-gitops
+  - Update based on your cluster configuration
 
 ## Verify Instana Installation
 
