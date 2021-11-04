@@ -10,11 +10,11 @@ metadata:
     chart: crossplane-1.2.1
     heritage: Helm
     release: crossplane
-  name: upbound-admin
+  name: upbound-admin-cp
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin 
+  name: cluster-admin
 subjects:
 - kind: ServiceAccount
   name: crossplane
@@ -35,7 +35,7 @@ metadata:
     chart: crossplane-1.2.1
     heritage: Helm
     release: crossplane
-  name: crossplane-admin
+  name: crossplane-admin-cp
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
