@@ -11,4 +11,4 @@ spec:
       name: {{.Values.spec.settingsConfigmapName}}
       namespace: {{.Values.spec.settingsConfigmapNS}}
   providerConfigRef:
-    name: {{.Values.spec.providerConfigRef}}
+    name: {{.Values.spec.clusterName}}-instana-provider-config
