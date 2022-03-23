@@ -22,3 +22,4 @@ Please refer to the following tutorial to decide how you want to deploy your Ins
 
 - [Using Kubernetes GitOps](./docs/install-instana-with-k8s-gitops.md)
 - Using OpenShift GitOps - TBD
+
