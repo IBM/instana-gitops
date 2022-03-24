@@ -1,0 +1,30 @@
+instana_download_key: "qUMhYJxjSv6uZh2SyqTEnw"
+instana_sales_key: "pgaBSBp_SnqIr5oMD68HoQ"
+instana_agent_key: "qumhYJxjSv6uZh2SyqTEnw"
+
+
+
+imagePullSecrets:
+  - name: instana-registry
+
+
+dbhost: "9.112.255.59"
+
+storageClassName: "rook-cephfs"
+
+# eg. for ocp: oc get ingresses.config/cluster -o jsonpath={.spec.domain}    
+Ingress_Domain:  "myIngress_Domain"
+
+
+# subchart   
+instana-operator:
+  image:
+    # -- The image tag to use.
+    tag: ""
+  
+  imagePullSecrets:
+    - name: instana-registry
+
+  fullnameOverride: "instana-operator"
+      
+

@@ -1,0 +1,41 @@
+apiVersion: instana.io/v1beta1
+kind: Core
+metadata:
+  namespace: instana-core
+  name: instana-core
+spec:
+  baseDomain: instana.{{ .Values.Ingress_Domain }}
+
+  agentAcceptorConfig:
+    host: agent.instana.{{ .Values.Ingress_Domain }}
+    port: 443
+
+  resourceProfile: small
+
+  # Datastore configs with default ports for each db
+  datastoreConfigs:
+    - type: cassandra
+      addresses:
+        - {{ .Values.dbhost }}
+    - type: cockroachdb
+      addresses:
+        - {{ .Values.dbhost }}
+    - type: clickhouse
+      addresses:
+        - {{ .Values.dbhost }}
+    - type: elasticsearch
+      addresses:
+        - {{ .Values.dbhost }}
+    - type: kafka
+      addresses:
+        - {{ .Values.dbhost }}
+
+  rawSpansStorageConfig:
+    pvcConfig:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: {{ .Values.storageClassName }}
+
