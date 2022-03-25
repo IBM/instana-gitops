@@ -1,5 +1,0 @@
-apiVersion: v2
-name: instana-operator
-description: Helm chart for the Instana Operator
-type: application
-version: 0.1.0
