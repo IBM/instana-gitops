@@ -13,7 +13,7 @@ dbhost: "9.112.255.59"
 storageClassName: "rook-cephfs"
 
 # eg. for ocp: oc get ingresses.config/cluster -o jsonpath={.spec.domain}    
-Ingress_Domain:  "myIngress_Domain"
+#Ingress_Domain:  "myIngress_Domain"
 
 
 # subchart   
