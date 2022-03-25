@@ -1,0 +1,172 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-install-instana
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+spec:
+  template:
+    spec:
+      containers:
+        - name: pre-install
+          image: quay.io/openshift/origin-cli:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              #set -o pipefail
+              set -x
+              result=0
+              
+
+              # ns
+              echo "creating ns instana-core, instana-unit ..."
+              cat << EOF | oc apply -f -
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: instana-core
+                labels:
+                  app.kubernetes.io/name: instana-core
+              ---
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: instana-units
+                labels:
+                  app.kubernetes.io/name: instana-units
+              EOF
+              result=$?
+              if [[ ${result} != 0 ]]; then 
+                exit "create ns exit with ${result}"
+              fi     
+
+              # create secrets : ---
+              # instana-registry ??
+              echo "create secret instana-registry "
+              # oc create secret docker-registry instana-registry --namespace instana-core \
+              #    --docker-username=_ \
+              #    --docker-password=$INSTANA_DOWNLOAD_KEY \
+              #    --docker-server=containers.instana.io
+              #oc label secret instana-registry app.kubernetes.io/name=instana --namespace instana-core
+              
+              # instana-base
+              echo "create secret  instana-base "
+              # oc kubectl create secret generic instana-base --namespace instana-core \
+              #    --from-literal=downloadKey=$INSTANA_DOWNLOAD_KEY \
+              #    --from-literal=salesKey=$INSTANA_SALES_KEY \
+              #    --from-literal=adminPassword=passw0rd \
+              #    --from-file=license=license \
+              #    --from-file=dhparams.pem=dhparams.pem \
+              #    --from-literal=token.secret=uQOkH+Y4wU_0
+              #
+              #oc label secret instana-base app.kubernetes.io/name=instana --namespace instana-core
+
+              # instana-service-provider
+              echo "create secret instana-service-provider "
+              # oc kubectl create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass=passw0rd --from-file=sp.pem=sp.pem 
+              # oc label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
+
+
+              # instana-tls
+              echo "create secret instana-tls "
+              #oc create secret tls instana-tls --namespace instana-core --cert=tls.crt --key=tls.key 
+              #oc label secret instana-tls   app.kubernetes.io/name=instana -n instana-core
+
+              #
+              version=`oc version |grep Server |awk '{print $3}' |tr -d ' '`
+              if [ ${#version} -gt 1 ] ; then
+                echo "ocp version ${version} "
+              else 
+                echo "this is not ocp, no need to execute following commands"
+                exit 0
+              fi
+              
+            
+              #TODO: if not ocp, use .values. , get _helpers .ingress_domain
+              
+
+              # base ingress , 
+              base=`oc get ingresses.config/cluster -o jsonpath={.spec.domain}`
+              echo ${base}
+
+                       
+              echo "creating core ..." 
+              cat << EOF | oc apply -f -
+              apiVersion: instana.io/v1beta1
+              kind: Core
+              metadata:
+                namespace: instana-core
+                name: instana-core
+              spec:
+                baseDomain: instana.${base}
+                agentAcceptorConfig:
+                  host: agent.instana.${base}
+                  port: 443
+                resourceProfile: small
+                # Datastore configs with default ports for each db
+                datastoreConfigs:
+                  - type: cassandra
+                    addresses:
+                      - {{ .Values.dbhost }}
+                  - type: cockroachdb
+                    addresses:
+                      - {{ .Values.dbhost }}
+                  - type: clickhouse
+                    addresses:
+                      - {{ .Values.dbhost }}
+                  - type: elasticsearch
+                    addresses:
+                      - {{ .Values.dbhost }}
+                  - type: kafka
+                    addresses:
+                      - {{ .Values.dbhost }}
+                rawSpansStorageConfig:
+                  pvcConfig:
+                    accessModes:
+                      - ReadWriteMany
+                    resources:
+                      requests:
+                        storage: 2Gi
+                    storageClassName: {{ .Values.storageClassName }}
+              EOF
+              result=$?
+              if [[ ${result} != 0 ]]; then 
+                exit "create core exit with ${result}"
+              fi              
+
+              echo "creating unit ..." 
+              cat << EOF | oc apply -f -
+              apiVersion: instana.io/v1beta1
+              kind: Unit
+              metadata:
+                namespace: instana-units
+                name: instana-prod
+              spec:
+                coreName: instana-core
+                coreNamespace: instana-core
+                tenantName: instana
+                unitName: prod
+                initialAgentKey: {{ .Values.instana_download_key }}
+                resourceProfile: small
+              EOF
+              result=$?
+              if [[ ${result} != 0 ]]; then 
+                exit "create unit exit with ${result}"
+              fi                            
+
+           
+              exit "${result}"
+      restartPolicy: Never
+      serviceAccountName: default
+
+
