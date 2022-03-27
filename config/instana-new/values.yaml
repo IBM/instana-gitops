@@ -1,11 +1,11 @@
-instana_download_key: ""
-instana_sales_key: ""
-instana_agent_key: ""
+INSTANA_DOWNLOAD_KEY: ""
+INSTANA_SALES_KEY: ""
+INSTANA_AGENT_KEY: ""
 
 portalPassword: "passw0rd"
   
-# kubectl create configmap instana-licesnse --from-file=lic=license  -n default
-instanaLicenseConfigMapName: "instana-license"
+# kubectl create configmap instana-stuff -n default --from-file=lic=license   --from-file=sppem=sp.pem  
+instanaLicenseConfigMapName: "instana-stuff"
 instanaLicenseConfigMapNS: "default"
 
 imagePullSecrets:

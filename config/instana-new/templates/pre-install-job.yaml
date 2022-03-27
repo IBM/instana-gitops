@@ -36,11 +36,17 @@ spec:
 
               cd 
               ls -ltr
+
               # license license
-              oc get cm/instana-license -n default  -o jsonpath={.data.lic}  > license
+              oc get cm/instana-stuff -n default  -o jsonpath={.data.lic}  > license
+
               openssl dhparam -out dhparams.pem 2048
-              /opt/instana/certpem.sh  {{ .Values.portalPassword }}  $base 
-              cat key.pem cert.pem > sp.pem
+
+              # key.pem , cert.pem = sp.pem
+              #/opt/instana/certpem.sh  {{ .Values.portalPassword }}  $base 
+              #cat key.pem cert.pem > sp.pem
+              oc get cm/instana-stuff -n default  -o jsonpath={.data.sppem}  > sp.pem
+              
               openssl req -x509 -newkey rsa:2048 -keyout tls.key -out tls.crt -days 365 -nodes -subj "/CN=instana.$base"
               ls -ltr
 
@@ -80,7 +86,7 @@ spec:
               oc create secret generic instana-base --namespace instana-core \
                   --from-literal=downloadKey=$INSTANA_DOWNLOAD_KEY \
                   --from-literal=salesKey=$INSTANA_SALES_KEY \
-                  --from-literal=adminPassword=passw0rd \
+                  --from-literal=adminPassword={{ .Values.portalPassword }} \
                   --from-file=license=license \
                   --from-file=dhparams.pem=dhparams.pem \
                   --from-literal=token.secret=uQOkH+Y4wU_0
