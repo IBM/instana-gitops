@@ -28,6 +28,22 @@ spec:
               result=0
               
 
+              #TODO: if not ocp, use .values. , get _helpers .ingress_domain
+              #
+              # base ingress , 
+              base=`oc get ingresses.config/cluster -o jsonpath={.spec.domain}`
+              echo ${base}
+
+              cd 
+              ls -ltr
+              # license license
+              oc get cm/instana-license -n default  -o jsonpath={.data.lic}  > license
+              openssl dhparam -out dhparams.pem 2048
+              /opt/instana/certpem.sh  {{ .Values.portalPassword }}  $base 
+              cat key.pem cert.pem > sp.pem
+              openssl req -x509 -newkey rsa:2048 -keyout tls.key -out tls.crt -days 365 -nodes -subj "/CN=instana.$base"
+              ls -ltr
+
               # ns
               echo "creating ns instana-core, instana-unit ..."
               cat << EOF | oc apply -f -
@@ -53,34 +69,34 @@ spec:
               # create secrets : ---
               # instana-registry ??
               echo "create secret instana-registry "
-              # oc create secret docker-registry instana-registry --namespace instana-core \
-              #    --docker-username=_ \
-              #    --docker-password=$INSTANA_DOWNLOAD_KEY \
-              #    --docker-server=containers.instana.io
-              #oc label secret instana-registry app.kubernetes.io/name=instana --namespace instana-core
+              oc create secret docker-registry instana-registry --namespace instana-core \
+                  --docker-username=_ \
+                  --docker-password=$INSTANA_DOWNLOAD_KEY \
+                  --docker-server=containers.instana.io
+              oc label secret instana-registry app.kubernetes.io/name=instana --namespace instana-core
               
               # instana-base
               echo "create secret  instana-base "
-              # oc kubectl create secret generic instana-base --namespace instana-core \
-              #    --from-literal=downloadKey=$INSTANA_DOWNLOAD_KEY \
-              #    --from-literal=salesKey=$INSTANA_SALES_KEY \
-              #    --from-literal=adminPassword=passw0rd \
-              #    --from-file=license=license \
-              #    --from-file=dhparams.pem=dhparams.pem \
-              #    --from-literal=token.secret=uQOkH+Y4wU_0
-              #
-              #oc label secret instana-base app.kubernetes.io/name=instana --namespace instana-core
+              oc create secret generic instana-base --namespace instana-core \
+                  --from-literal=downloadKey=$INSTANA_DOWNLOAD_KEY \
+                  --from-literal=salesKey=$INSTANA_SALES_KEY \
+                  --from-literal=adminPassword=passw0rd \
+                  --from-file=license=license \
+                  --from-file=dhparams.pem=dhparams.pem \
+                  --from-literal=token.secret=uQOkH+Y4wU_0
+              
+              oc label secret instana-base app.kubernetes.io/name=instana --namespace instana-core
 
               # instana-service-provider
               echo "create secret instana-service-provider "
-              # oc kubectl create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass=passw0rd --from-file=sp.pem=sp.pem 
-              # oc label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
+              oc create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass=passw0rd --from-file=sp.pem=sp.pem 
+              oc label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
 
 
               # instana-tls
               echo "create secret instana-tls "
-              #oc create secret tls instana-tls --namespace instana-core --cert=tls.crt --key=tls.key 
-              #oc label secret instana-tls   app.kubernetes.io/name=instana -n instana-core
+              oc create secret tls instana-tls --namespace instana-core --cert=tls.crt --key=tls.key 
+              oc label secret instana-tls   app.kubernetes.io/name=instana -n instana-core
 
               #
               version=`oc version |grep Server |awk '{print $3}' |tr -d ' '`
@@ -91,13 +107,6 @@ spec:
                 exit 0
               fi
               
-            
-              #TODO: if not ocp, use .values. , get _helpers .ingress_domain
-              
-
-              # base ingress , 
-              base=`oc get ingresses.config/cluster -o jsonpath={.spec.domain}`
-              echo ${base}
 
                        
               echo "creating core ..." 
@@ -163,9 +172,18 @@ spec:
               if [[ ${result} != 0 ]]; then 
                 exit "create unit exit with ${result}"
               fi                            
-
            
               exit "${result}"
+
+          volumeMounts:
+          - name: pre-install
+            mountPath: /opt/instana/
+      volumes:
+      - name: pre-install
+        configMap:
+          name: instana-pre-install-script-certpem
+          defaultMode: 0774
+
       restartPolicy: Never
       serviceAccountName: default
 

@@ -2,7 +2,11 @@ instana_download_key: ""
 instana_sales_key: ""
 instana_agent_key: ""
 
-
+portalPassword: "passw0rd"
+  
+# kubectl create configmap instana-licesnse --from-file=lic=license  -n default
+instanaLicenseConfigMapName: "instana-license"
+instanaLicenseConfigMapNS: "default"
 
 imagePullSecrets:
   - name: instana-registry
@@ -25,6 +29,7 @@ instana-operator:
   imagePullSecrets:
     - name: instana-registry
 
+  nameOverride: "instana-operator"
   fullnameOverride: "instana-operator"
       
 
