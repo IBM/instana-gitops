@@ -38,14 +38,14 @@ spec:
               # fi
 
               # ns 
-              echo 'Check namespace "instana-operator" '
-              oc get ns instana-operator
-              if [[ $? != 0 ]]; then
-                 echo 'Namespace "instana-operator" not found, now create it.'
-                 oc create ns instana-operator 
-              else
-                 echo 'Namespace "instana-operator" found.'
-              fi
+              echo 'create namespace "instana-operator" '
+              # oc get ns instana-operator
+              # if [[ $? != 0 ]]; then
+              #    echo 'Namespace "instana-operator" not found, now create it.'
+              oc create ns instana-operator 
+              # else
+              #    echo 'Namespace "instana-operator" found.'
+              # fi
 
               # imagePullSecrets ?
               echo "create secret instana-registry "
