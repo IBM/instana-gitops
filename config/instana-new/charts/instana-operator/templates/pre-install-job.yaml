@@ -27,13 +27,15 @@ spec:
               set -x
               result=0
                             
-              # cert-manager 
-              echo 'Apply cert-manager.yaml ... '
-              oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
-              result=$?
-              if [[ ${result} != 0 ]]; then 
-                exit "Apply cert-manager.yaml exit with ${result}"
-              fi
+              # cert-manager apply in advance as prereq 
+              # echo 'Apply cert-manager.yaml ... '
+              #oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
+              # apply cert as cm ??
+              #oc apply -f 
+              # result=$?
+              # if [[ ${result} != 0 ]]; then 
+              #   exit "Apply cert-manager.yaml exit with ${result}"
+              # fi
 
               # ns 
               echo 'Check namespace "instana-operator" '
