@@ -44,7 +44,7 @@ data:
     expect "Organizational Unit Name (eg, section)"
     send -- "CDL\r"
     
-    expect "Common Name (e.g. server FQDN or YOUR name)"
+    expect "Common Name"
     send -- "instana.$base\r"
     
     expect "Email Address"
