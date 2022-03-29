@@ -12,7 +12,7 @@ image:
 
 # -- The image pull policy.
 imagePullPolicy: IfNotPresent
-
+INSTANA_DOWNLOAD_KEY : ""
 # -- A list of image pull secrets.
 imagePullSecrets: []
 

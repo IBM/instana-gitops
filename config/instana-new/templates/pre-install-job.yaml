@@ -34,7 +34,7 @@ spec:
               base=`oc get ingresses.config/cluster -o jsonpath={.spec.domain}`
               echo ${base}
 
-              cd 
+              #cd 
               ls -ltr
 
               # license license
@@ -77,15 +77,15 @@ spec:
               echo "create secret instana-registry "
               oc create secret docker-registry instana-registry --namespace instana-core \
                   --docker-username=_ \
-                  --docker-password=$INSTANA_DOWNLOAD_KEY \
+                  --docker-password={{ .Values.INSTANA_DOWNLOAD_KEY }} \
                   --docker-server=containers.instana.io
               oc label secret instana-registry app.kubernetes.io/name=instana --namespace instana-core
               
               # instana-base
               echo "create secret  instana-base "
               oc create secret generic instana-base --namespace instana-core \
-                  --from-literal=downloadKey=$INSTANA_DOWNLOAD_KEY \
-                  --from-literal=salesKey=$INSTANA_SALES_KEY \
+                  --from-literal=downloadKey={{ .Values.INSTANA_DOWNLOAD_KEY }} \
+                  --from-literal=salesKey={{ .Values.INSTANA_SALES_KEY }} \
                   --from-literal=adminPassword={{ .Values.portalPassword }} \
                   --from-file=license=license \
                   --from-file=dhparams.pem=dhparams.pem \
@@ -95,7 +95,7 @@ spec:
 
               # instana-service-provider
               echo "create secret instana-service-provider "
-              oc create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass=passw0rd --from-file=sp.pem=sp.pem 
+              oc create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass={{ .Values.portalPassword }}  --from-file=sp.pem=sp.pem 
               oc label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
 
 
@@ -171,7 +171,7 @@ spec:
                 coreNamespace: instana-core
                 tenantName: instana
                 unitName: prod
-                initialAgentKey: {{ .Values.instana_download_key }}
+                initialAgentKey: {{ .Values.INSTANA_DOWNLOAD_KEY }}
                 resourceProfile: small
               EOF
               result=$?

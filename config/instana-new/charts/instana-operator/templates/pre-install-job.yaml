@@ -46,8 +46,12 @@ spec:
               fi
 
               # imagePullSecrets ?
-              #
-              
+              echo "create secret instana-registry "
+              oc create secret docker-registry instana-registry --namespace instana-operator \
+                  --docker-username=_ \
+                  --docker-password={{ .Values.INSTANA_DOWNLOAD_KEY }} \
+                  --docker-server=containers.instana.io
+
               # --- ocp only below ---
               version=`oc version |grep Server |awk '{print $3}' |tr -d ' '`
               if [ ${#version} -gt 1 ] ; then

@@ -26,6 +26,8 @@ instana-operator:
     # -- The image tag to use.
     tag: ""
   
+  INSTANA_DOWNLOAD_KEY: ""
+
   imagePullSecrets:
     - name: instana-registry
 
