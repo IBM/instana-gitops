@@ -1,0 +1,37 @@
+INSTANA_DOWNLOAD_KEY: ""
+INSTANA_SALES_KEY: ""
+INSTANA_AGENT_KEY: ""
+
+portalPassword: "passw0rd"
+  
+# kubectl create configmap instana-stuff -n default --from-file=lic=license   --from-file=sppem=sp.pem  
+instanaLicenseConfigMapName: "instana-stuff"
+instanaLicenseConfigMapNS: "default"
+
+imagePullSecrets:
+  - name: instana-registry
+
+
+dbhost: "9.112.255.59"
+
+storageClassName: "rook-cephfs"
+
+# eg. for ocp: oc get ingresses.config/cluster -o jsonpath={.spec.domain}    
+#Ingress_Domain:  "myIngress_Domain"
+
+
+# subchart   
+instana-operator:
+  image:
+    # -- The image tag to use.
+    tag: ""
+  
+  INSTANA_DOWNLOAD_KEY: ""
+
+  imagePullSecrets:
+    - name: instana-registry
+
+  nameOverride: "instana-operator"
+  fullnameOverride: "instana-operator"
+      
+
