@@ -70,23 +70,44 @@ metadata:
 EOF
 
 # ocp scc
-oc adm policy add-scc-to-user anyuid     -z default -n instana-core
-oc adm policy add-scc-to-user anyuid     -z instana-core -n instana-core
-oc adm policy add-scc-to-user privileged -z default -n instana-core
+oc adm policy add-scc-to-user anyuid -z instana-core -n instana-core
+oc adm policy add-scc-to-user anyuid -z default -n instana-core
+
+oc adm policy add-scc-to-user privileged -z default      -n instana-core
+oc adm policy add-scc-to-user privileged -z instana-core -n instana-core
+oc adm policy add-scc-to-group anyuid     system:serviceaccounts:instana-core
+oc adm policy add-scc-to-group privileged system:serviceaccounts:instana-core
+
+
+oc adm policy add-scc-to-user anyuid -z instana-prod -n instana-units
+oc adm policy add-scc-to-user anyuid -z default -n instana-units
+
+oc adm policy add-scc-to-group anyuid     system:serviceaccounts:instana-units
+oc adm policy add-scc-to-group privileged system:serviceaccounts:instana-units
+oc adm policy add-scc-to-user privileged -z default      -n instana-units
+oc adm policy add-scc-to-user privileged -z instana-prod -n instana-units
+
+
 
 # instana license and cert stuff
 kubectl instana license download --sales-key $INSTANA_SALES_KEY
 cat license.json | tr -d '[]"' > license
 
-#TODO: diff k3s without interact input , and if ok, then no expect needed 
+#TODO: diff k3s without interact input , and if ok, then no expect needed , instana-service-provider can absent??
 # create key.pem, cert.pem
 mycertpem.sh $portalPassword  $base
 cat key.pem cert.pem > sp.pem
+# instana-service-provider : not need in 217 per k3s stan.sh??
+kubectl create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass=$portalPassword --from-file=sp.pem=sp.pem
+kubectl label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
+
+
 openssl dhparam -out dhparams.pem 2048
 openssl req -x509 -newkey rsa:2048 -keyout tls.key -out tls.crt -days 365 -nodes -subj "/CN=instana.$base"
 # ls -ltr  
 # license.json
 # license
+
 # key.pem
 # cert.pem
 # sp.pem
@@ -113,17 +134,13 @@ kubectl create secret generic instana-base --namespace instana-core \
     --from-literal=token.secret=uQOkH+Y4wU_0
 kubectl label secret instana-base app.kubernetes.io/name=instana --namespace instana-core
 
-# instana-service-provider
-kubectl create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass=$portalPassword --from-file=sp.pem=sp.pem
-kubectl label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
 
 # instana-tls
 kubectl create secret tls instana-tls --namespace instana-core --cert=tls.crt --key=tls.key
 kubectl label secret instana-tls   app.kubernetes.io/name=instana -n instana-core
 
 
-
-
+# cr
 echo "creating core ..." 
 cat << EOF | oc apply -f -
 apiVersion: instana.io/v1beta1
