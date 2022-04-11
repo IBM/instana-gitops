@@ -17,4 +17,12 @@ oc create secret generic kubeconfig --from-file=credentials=~/.kube/config -n in
 # ?? if not apply in advance, ??
 #oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
 
+# optional ??
+# if cm/instana-sppem, then create 
+# create key.pem, cert.pem
+mycertpem.sh $portalPassword  $base
+cat key.pem cert.pem > sp.pem
+kubectl create configmap instana-sppem -n default --from-file=sppem=sp.pem
+
+
 
