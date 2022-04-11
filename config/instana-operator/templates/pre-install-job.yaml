@@ -84,7 +84,7 @@ spec:
               exit 0
             
 
-         volumeMounts:
+          volumeMounts:
           - mountPath: /root/.kube
             name: kubeconfig              
       volumes:

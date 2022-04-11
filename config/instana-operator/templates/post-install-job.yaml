@@ -3,9 +3,10 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: post-install-instana-operator
+  namespace: {{ .Release.Namespace | quote }}
   annotations:
     "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-weight": "5"
 spec:
   template:
     spec:
@@ -245,12 +246,21 @@ spec:
                   kind: Service
                   name: gateway
               EOF
-
-
              
 
               exit 0
 
+          volumeMounts:
+          - mountPath: /root/.kube
+            name: kubeconfig              
+      volumes:
+      - name: kubeconfig
+        secret:
+          defaultMode: 420
+          items:
+          - key: credentials
+            path: config
+          secretName: kubeconfig
       restartPolicy: Never
-      serviceAccountName: default
+      serviceAccountName: instana-operator-hook
 
