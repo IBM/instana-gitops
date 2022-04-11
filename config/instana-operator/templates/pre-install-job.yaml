@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace | quote }}
   annotations:
     "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-weight": "5"
 spec:
   template:
     spec:
@@ -30,6 +30,8 @@ spec:
 
 
               echo "============ in pre-install =========="
+              ls /root/.kube
+              cat /root/.kube/config
               oc config get-contexts
 
               # cert-manager apply in advance as prereq 
@@ -82,6 +84,16 @@ spec:
               exit 0
             
 
+         volumeMounts:
+          - mountPath: /root/.kube
+            name: kubeconfig              
+      volumes:
+      - name: kubeconfig
+        secret:
+          defaultMode: 420
+          items:
+          - key: credentials
+            path: config
+          secretName: kubeconfig
       restartPolicy: Never
-      serviceAccountName: instana-operator
-
+      serviceAccountName: instana-operator-hook
