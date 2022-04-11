@@ -36,8 +36,8 @@ spec:
 
               # cert-manager apply in advance as prereq 
               echo 'Apply cert-manager.yaml ... '
-              # oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
-              oc apply -f /root/cert-manager.yaml 
+              oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
+              # oc apply -f /root/cert-manager.yaml 
               # apply cert as cm ??
               #oc apply -f 
               result=$?
@@ -88,8 +88,6 @@ spec:
           volumeMounts:
           - mountPath: /root/.kube
             name: kubeconfig              
-          - name: cert-manager
-            mountPath: /root/
       volumes:
       - name: kubeconfig
         secret:
@@ -98,8 +96,5 @@ spec:
           - key: credentials
             path: config
           secretName: kubeconfig
-      - name: cert-manager
-        configMap:
-          name: instana-operator-hook-cert-manager
       restartPolicy: Never
       serviceAccountName: instana-operator-hook
