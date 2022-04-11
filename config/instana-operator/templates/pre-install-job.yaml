@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: pre-install-instana-operator
+  namespace: {{ .Release.Namespace | quote }}
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-5"
@@ -26,7 +27,11 @@ spec:
               #set -o pipefail
               set -x
               result=0
-                            
+
+
+              echo "============ in pre-install =========="
+              oc config get-contexts
+
               # cert-manager apply in advance as prereq 
               echo 'Apply cert-manager.yaml ... '
               oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
@@ -36,16 +41,27 @@ spec:
               if [[ ${result} != 0 ]]; then 
                  exit "Apply cert-manager.yaml exit with ${result}"
               fi
+              sleep 5
 
-              # ns 
+              # ns  : can't create this ns 
               echo 'create namespace "instana-operator" '
               # oc get ns instana-operator
               # if [[ $? != 0 ]]; then
               #    echo 'Namespace "instana-operator" not found, now create it.'
-              oc create ns instana-operator 
+              #oc create ns instana-operator 
               # else
               #    echo 'Namespace "instana-operator" found.'
               # fi
+
+              # if ocp, anyuid to sa/default 
+              echo 'in ocp, add anyuid to default in instana-operator ...'
+              oc adm policy add-scc-to-user anyuid -z default -n instana-operator
+              oc adm policy add-scc-to-user anyuid -z instana-operator -n instana-operator
+              result=$?
+              if [[ ${result} != 0 ]]; then 
+                exit "${result}"
+              fi
+
 
               # imagePullSecrets ?
               echo "create secret instana-registry "
@@ -63,18 +79,9 @@ spec:
                 exit 0
               fi
 
-              # if ocp, anyuid to sa/default 
-              echo 'in ocp, add anyuid to default in instana-operator ...'
-              oc adm policy add-scc-to-user anyuid -z default -n instana-operator
-              oc adm policy add-scc-to-user anyuid -z instana-operator -n instana-operator
-              result=$?
-              if [[ ${result} != 0 ]]; then 
-                exit "${result}"
-              fi
-
               exit 0
             
 
       restartPolicy: Never
-      serviceAccountName: default
+      serviceAccountName: instana-operator
 
