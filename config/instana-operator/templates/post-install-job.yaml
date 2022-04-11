@@ -31,7 +31,8 @@ spec:
               echo "============ in post-install =========="
               echo "wait until instana-operator pod running"
               while true; do
-                if oc get pod -n instana-operator | grep instana-operator- | grep Running; then
+                if oc get pod -n instana-operator | grep -e "^instana-operator-" | grep Running | grep "1/1"; then
+                  echo "instana-operator pod is running, break wait." 
                   break
                 else
                   echo "waiting until instana-operator pod running ..."
@@ -87,15 +88,17 @@ spec:
               # kubectl create configmap instana-license -n default --from-file=lic=license
               oc get cm/instana-license -n default  -o jsonpath={.data.lic}  > license
 
-              #TODO: diff k3s without interact input , and if ok, then no expect needed , instana-service-provider can absent??
+              #optional ??
               # create key.pem, cert.pem
               # mycertpem.sh $portalPassword  $base
               # cat key.pem cert.pem > sp.pem
               # kubectl create configmap instana-sppem -n default --from-file=sppem=sp.pem
-              #oc get cm/instana-sppem -n default  -o jsonpath={.data.sppem}  > sp.pem
-              # instana-service-provider : not need in 217 per k3s stan.sh??
-              #kubectl create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass={{ .Values.portalPassword }} --from-file=sp.pem=sp.pem
-              #kubectl label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
+              if  oc get cm/instana-sppem -n default; then
+                oc get cm/instana-sppem -n default  -o jsonpath={.data.sppem}  > sp.pem
+                # instana-service-provider : not need in 217 per k3s stan.sh??
+                kubectl create secret generic instana-service-provider  --namespace instana-core --from-literal=sp.key.pass={{ .Values.portalPassword }} --from-file=sp.pem=sp.pem
+                kubectl label secret instana-service-provider   app.kubernetes.io/name=instana -n instana-core
+              fi
               
               openssl dhparam -out dhparams.pem 2048
               openssl req -x509 -newkey rsa:2048 -keyout tls.key -out tls.crt -days 365 -nodes -subj "/CN=instana.$base"
