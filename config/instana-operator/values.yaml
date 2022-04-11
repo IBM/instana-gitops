@@ -18,10 +18,10 @@ imagePullSecrets:
   - name: instana-registry
 
 # -- Overrides the chart's name (instana-operator).
-nameOverride: ""
+nameOverride: "instana-operator"
 
 # -- Overrides the chart's fullname (instana-operator).
-fullnameOverride: ""
+fullnameOverride: "instana-operator"
 
 # -- Specifies a custom cluster domain.
 clusterDomain: ""
@@ -64,3 +64,30 @@ installCRDs: true
 webhook:
   # -- Base64-encoded CA bundle for the webhook.
   caBundleBase64: ""
+
+
+#################################### added for whole with core, unit
+INSTANA_DOWNLOAD_KEY: ""
+INSTANA_SALES_KEY: ""
+INSTANA_AGENT_KEY: ""
+
+portalPassword: "passw0rd"
+  
+# kubectl create configmap instana-stuff -n default --from-file=lic=license   --from-file=sppem=sp.pem  
+instanaLicenseConfigMapName: "instana-stuff"
+instanaLicenseConfigMapNS: "default"
+
+#imagePullSecrets:
+#  - name: instana-registry
+
+
+dbhost: "9.112.255.59"
+
+storageClassName: "rook-cephfs"
+
+# eg. for ocp: oc get ingresses.config/cluster -o jsonpath={.spec.domain}    
+#Ingress_Domain:  "myIngress_Domain"
+
+
+      
+    
