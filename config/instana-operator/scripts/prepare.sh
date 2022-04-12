@@ -10,7 +10,7 @@ cat license.json | tr -d '[]"' > license
 oc create configmap instana-license -n default --from-file=lic=license
 
 # kubeconfig
-oc create secret generic kubeconfig --from-file=credentials=~/.kube/config -n instana-operator
+oc create secret generic kubeconfig --from-file=credentials=$HOME/.kube/config -n instana-operator
 
 
 # cert-manager
@@ -20,9 +20,9 @@ oc create secret generic kubeconfig --from-file=credentials=~/.kube/config -n in
 # optional ??
 # if cm/instana-sppem, then create 
 # create key.pem, cert.pem
-mycertpem.sh $portalPassword  $base
-cat key.pem cert.pem > sp.pem
-kubectl create configmap instana-sppem -n default --from-file=sppem=sp.pem
+#mycertpem.sh $portalPassword  $base
+#cat key.pem cert.pem > sp.pem
+#kubectl create configmap instana-sppem -n default --from-file=sppem=sp.pem
 
 
 

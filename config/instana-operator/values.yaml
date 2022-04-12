@@ -52,7 +52,7 @@ nameOverride: "instana-operator"
 # -- Overrides the chart's fullname (instana-operator).
 fullnameOverride: "instana-operator"
 
-# -- Specifies a custom cluster domain.
+# -- Specifies a custom cluster domain. cluster.local?? 
 clusterDomain: ""
 
 # -- Additional CLI arguments for the operator process.
