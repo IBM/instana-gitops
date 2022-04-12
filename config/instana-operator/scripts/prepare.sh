@@ -15,7 +15,7 @@ oc create secret generic kubeconfig --from-file=credentials=$HOME/.kube/config -
 
 # cert-manager
 # ?? if not apply in advance, ??
-#oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
+oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
 
 # optional ??
 # if cm/instana-sppem, then create 
