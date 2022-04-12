@@ -217,3 +217,6 @@ In login UI,
 
 After click `Sign In`, you will be navigated to the Instan UI as follows.
 
+
+
+![w](images/instana-running.png)
