@@ -1,13 +1,13 @@
 #################################### added for whole with core, unit
-INSTANA_DOWNLOAD_KEY: ""
-INSTANA_SALES_KEY: ""
-INSTANA_AGENT_KEY: ""
-
-portalPassword: "passw0rd"
+INSTANA_DOWNLOAD_KEY: "REPLACE_ME"
+INSTANA_SALES_KEY: "REPLACE_ME"
+INSTANA_AGENT_KEY: "REPLACE_ME"
   
-dbhost: "9.112.255.59"
+dbhost: "REPLACE_ME"
 
 storageClassName: "rook-cephfs"
+
+portalPassword: "passw0rd"
 
 
 
@@ -38,11 +38,10 @@ image:
   repository: instana/release/selfhosted/operator
   # -- The image tag to use.
   # @default -- Automatically set by the kubectl plugin
-  tag: ""
+  tag: "REPLACE_ME"
 
 # -- The image pull policy.
 imagePullPolicy: IfNotPresent
-INSTANA_DOWNLOAD_KEY : ""
 # -- A list of image pull secrets.
 imagePullSecrets:
   - name: instana-registry
