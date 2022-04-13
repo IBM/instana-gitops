@@ -88,7 +88,7 @@ spec:
               # kubectl create configmap instana-license -n default --from-file=lic=license
               # oc get cm/instana-license -n default  -o jsonpath={.data.lic}  > license
               license=$(echo {{ .Values.INSTANA_LICENSE }} | tr -d '[]"')
-              
+              echo $license
 
               #optional ??
               # create key.pem, cert.pem
