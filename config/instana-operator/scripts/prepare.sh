@@ -1,5 +1,10 @@
 #/bin/bash
 
+# precheck
+if [ "$INSTANA_SALES_KEY" = "" ] ; then
+	echo "env variable INSTANA_SALES_KEY must be set in advance. exit now."
+	exit 1
+fi
 
 # create ns instana-operator to create other stuff: secret/kubeconfig
 oc create ns instana-operator
