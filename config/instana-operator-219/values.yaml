@@ -1,0 +1,68 @@
+# -- The number of replicas to create.
+replicas: 1
+
+image:
+  # -- The image registry to use.
+  registry: containers.instana.io
+  # -- The image repository to use.
+  repository: instana/release/selfhosted/operator
+  # -- The image tag to use.
+  # @default -- Automatically set by the kubectl plugin
+  tag: ""
+
+# -- The image pull policy.
+imagePullPolicy: IfNotPresent
+
+# -- A list of image pull secrets.
+imagePullSecrets: []
+
+# -- Overrides the chart's name (instana-operator).
+nameOverride: ""
+
+# -- Overrides the chart's fullname (instana-operator).
+fullnameOverride: ""
+
+# -- Specifies a custom cluster domain.
+clusterDomain: ""
+
+# -- Additional CLI arguments for the operator process.
+extraArgs: []
+
+# -- Additional environment variables for the operator process.
+extraEnv: []
+
+# -- Security context for the operator pod.
+podSecurityContext:
+  runAsUser: 65532
+  runAsGroup: 65532
+  runAsNonRoot: true
+
+# -- Security context for the operator container.
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+
+# -- Resource requests and limits for the operator pod.
+resources: {}
+
+# -- Node selector for the operator pod.
+nodeSelector: {}
+
+# -- Tolerations for the operator pod.
+tolerations: []
+
+# -- Affinity for the operator pod.
+affinity: {}
+
+# -- Specifies whether CRDs should be installed.
+installCRDs: true
+
+webhook:
+  # -- Base64-encoded CA bundle for the webhook.
+  caBundleBase64: ""
+
+# -- Use the host's network namespace. Enabling this also sets 'dnsPolicy' to 'ClusterFirstWithHostNet'.
+hostNetwork: false
