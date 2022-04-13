@@ -73,7 +73,7 @@ export ARGO_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitop
 Download and run below on bastion:
 
 ```sh
-wget  https://github.com/IBM/instana-gitops/blob/main/config/instana-operator/scripts/prepare.sh | sh
+curl -sSL https://raw.githubusercontent.com/IBM/instana-gitops/main/config/instana-operator/scripts/prepare.sh | sh
 ```
 
 
