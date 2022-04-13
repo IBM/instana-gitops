@@ -63,7 +63,7 @@ export ARGO_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitop
 
 #### Prepare install
 
-Download and run below on bastion:
+Run below on bastion terminal:
 
 ```sh
 curl -sSL https://raw.githubusercontent.com/lihongbj/instana-gitops/main/config/instana-operator/scripts/prepare.sh | sh
@@ -73,7 +73,7 @@ curl -sSL https://raw.githubusercontent.com/lihongbj/instana-gitops/main/config/
 
 #### Create Instana application to install
 
-Input parameters as follows when creating application:
+Create `instana` application, input parameters as follows :
 - GENERAL
   - Application Name: instana
   - Project: default
@@ -90,6 +90,9 @@ Input parameters as follows when creating application:
   - dbhost
   - storageClassName
   - INSTANA_DOWNLOAD_KEY
+  - INSTANA_SALES_KEY
+  - INSTANA_AGENT_KEY
+  - INSTANA_LICENSE
   - ...
 
 
@@ -114,7 +117,7 @@ From Argo CD UI, you will see the `instana` application growing and creating:
 
 #### CLI Verify
 
-After instana application is created in ArgoCD UI, you can go to bastion VM terminal to wait instana core and unit to finish creating, and this will take about 1 hour.
+After `instana` application is created in ArgoCD UI, you can go to bastion terminal to check and wait instana core and unit to finish creating, and this will take about 1 hour.
 
 You can check progress of instana by :
 
