@@ -24,7 +24,7 @@
 
 - Gitops Operator (Red Hat OpenShift GitOps) in OpenShift operator-hub
 
-- bastion VM that has login OCP cluster and binary instana kubectl plugin ready to download license 
+- bastion terminal that has login OCP cluster
 
 - Instana DB Host
   - With at least 16 Core, 64G Memory and 250G Disk
@@ -51,9 +51,6 @@
     name: cluster-admin
   ```
 
-  
-
-  
 
 ## Deploy Instana to OpenShift Cluster
 ### Login to Argo CD
@@ -73,7 +70,7 @@ export ARGO_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitop
 Download and run below on bastion:
 
 ```sh
-curl -sSL https://raw.githubusercontent.com/IBM/instana-gitops/main/config/instana-operator/scripts/prepare.sh | sh
+curl -sSL https://raw.githubusercontent.com/lihongbj/instana-gitops/main/config/instana-operator/scripts/prepare.sh | sh
 ```
 
 
@@ -86,7 +83,7 @@ Input parameters as follows when creating application:
   - Project: default
   - SYNC POLICY: Automatic
 - SOURCE
-  - REPO URL : https://github.com/IBM/instana-gitops
+  - REPO URL : https://github.com/lihongbj/instana-gitops
   - Target version: HEAD
   - path: config/instana-operator
 - DESTINATION
