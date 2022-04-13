@@ -154,8 +154,6 @@ NAMESPACE       NAME           STATUS   VERSION
 instana-units   instana-prod   Ready    215-4
 ```
 
-Wait a while and check if all pods under namespace `instana-operator`, `instana-core` and `instana-units` and are running well without any crash.
-
 ```console
 # kubectl get po -n instana-operator
 NAME                                  READY   STATUS      RESTARTS   AGE
@@ -208,8 +206,8 @@ In OCP portal, go to routes, and click `gateway-unit` to navigate to instana por
 
 In login UI,
 
-- `User name` is `admin@instana.local` by default
-- `Passowrd` is set in ArgoCD application `portalPassword`,  default is `passw0rd` .
+- User name is `admin@instana.local` by default
+- Passowrd is set in ArgoCD application helm parameters `portalPassword`,  default is `passw0rd` .
 
 After click `Sign In`, you will be navigated to the Instan UI as follows.
 
