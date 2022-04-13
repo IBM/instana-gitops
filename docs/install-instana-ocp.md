@@ -20,19 +20,15 @@
 
 ## Prerequisites
 
-- OpenShift 4.6+ :  With at least 16 Core, 64G Memory and 250G Disk
-
-- Gitops Operator (Red Hat OpenShift GitOps) in OpenShift operator-hub
+- OpenShift 4.6+ :  at least 3 worker nodes with 32G+ mem, 16+ cpu
 
 - bastion terminal that has login OCP cluster
 
-- Instana DB Host
-  - With at least 16 Core, 64G Memory and 250G Disk
-  - All DB container are ready and running on the DB Host
+- Instana DB Host : All DB containers have been ready and running on the DB Host
 
 - storageClass has installed
 
-- [Argo CD](https://argo-cd.readthedocs.io/en/stable/getting_started/#6-create-an-application-from-a-git-repository) was deployed in the OCP Cluster
+- Gitops Operator (Red Hat OpenShift GitOps) in OpenShift operator-hub
 
 - Login to OpenShift and apply below yaml to grant Argo CD  permissions on bastion:
 
