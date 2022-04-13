@@ -48,20 +48,12 @@
   ```
 
 
+
 ## Deploy Instana to OpenShift Cluster
-### Login to Argo CD
-
-Login with `admin` as Username and below Password: 
-
-```sh
-export ARGO_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o "jsonpath={.data['admin\.password']}" | base64 -d)
-```
 
 
 
-### Deploy Instana
-
-#### Prepare install
+### Prepare install
 
 Run below on bastion terminal:
 
@@ -71,9 +63,21 @@ curl -sSL https://raw.githubusercontent.com/lihongbj/instana-gitops/main/config/
 
 
 
-#### Create Instana application to install
+### Deploy Instana
 
-Create `instana` application, input parameters as follows :
+#### Login to Argo CD
+
+Login with `admin` as Username and below Password: 
+
+```sh
+export ARGO_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o "jsonpath={.data['admin\.password']}" | base64 -d)
+```
+
+
+
+#### Create Instana application to deploy
+
+Create `instana` application, input parameters as follows In ArgoCD UI:
 - GENERAL
   - Application Name: instana
   - Project: default
