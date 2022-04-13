@@ -2,10 +2,11 @@
 INSTANA_DOWNLOAD_KEY: "REPLACE_ME"
 INSTANA_SALES_KEY: "REPLACE_ME"
 INSTANA_AGENT_KEY: "REPLACE_ME"
+INSTANA_LICENSE: "REPLACE_ME"
   
 dbhost: "REPLACE_ME"
 
-storageClassName: "rook-cephfs"
+storageClassName: "REPLACE_ME"
 
 portalPassword: "passw0rd"
 

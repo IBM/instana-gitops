@@ -10,9 +10,9 @@ fi
 oc create ns instana-operator
 
 # prepare license from instana
-kubectl instana license download --sales-key $INSTANA_SALES_KEY
-cat license.json | tr -d '[]"' > license
-oc create configmap instana-license -n default --from-file=lic=license
+# kubectl instana license download --sales-key $INSTANA_SALES_KEY
+# cat license.json | tr -d '[]"' > license
+# oc create configmap instana-license -n default --from-file=lic=license
 
 # kubeconfig
 oc create secret generic kubeconfig --from-file=credentials=$HOME/.kube/config -n instana-operator

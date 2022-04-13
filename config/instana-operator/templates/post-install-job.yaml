@@ -86,7 +86,9 @@ spec:
               # kubectl instana license download --sales-key $INSTANA_SALES_KEY
               # cat license.json | tr -d '[]"' > license
               # kubectl create configmap instana-license -n default --from-file=lic=license
-              oc get cm/instana-license -n default  -o jsonpath={.data.lic}  > license
+              # oc get cm/instana-license -n default  -o jsonpath={.data.lic}  > license
+              license=$(echo {{ .Values.INSTANA_LICENSE }} | tr -d '[]"')
+              
 
               #optional ??
               # create key.pem, cert.pem
@@ -126,7 +128,7 @@ spec:
                   --from-literal=downloadKey={{ .Values.INSTANA_DOWNLOAD_KEY }} \
                   --from-literal=salesKey={{ .Values.INSTANA_SALES_KEY }} \
                   --from-literal=adminPassword={{ .Values.portalPassword }}  \
-                  --from-file=license=license \
+                  --from-literal=license=$license \
                   --from-file=dhparams.pem=dhparams.pem \
                   --from-literal=token.secret=uQOkH+Y4wU_0
               kubectl label secret instana-base app.kubernetes.io/name=instana --namespace instana-core
