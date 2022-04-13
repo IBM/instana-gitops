@@ -28,7 +28,7 @@
 
 - storageClass has installed
 
-- Gitops Operator (Red Hat OpenShift GitOps) in OpenShift operator-hub
+- Gitops Operator (Red Hat OpenShift GitOps) installed in OpenShift operator-hub
 
 - Login to OpenShift and apply below yaml to grant Argo CD  permissions on bastion:
 
