@@ -1,3 +1,34 @@
+#################################### added for whole with core, unit
+INSTANA_DOWNLOAD_KEY: "REPLACE_ME"
+INSTANA_SALES_KEY: "REPLACE_ME"
+INSTANA_AGENT_KEY: "REPLACE_ME"
+INSTANA_LICENSE: "REPLACE_ME"
+  
+dbhost: "REPLACE_ME"
+
+storageClassName: "REPLACE_ME"
+
+portalPassword: "passw0rd"
+
+
+
+# kubectl create configmap instana-stuff -n default --from-file=lic=license   --from-file=sppem=sp.pem  
+#instanaLicenseConfigMapName: "instana-license"
+#instanaLicenseConfigMapNS: "default"
+
+#imagePullSecrets:
+#  - name: instana-registry
+
+
+# eg. for ocp: oc get ingresses.config/cluster -o jsonpath={.spec.domain}    
+#Ingress_Domain:  "myIngress_Domain"
+
+
+      
+#################################### end for added for whole with core, unit
+   
+
+
 # -- The number of replicas to create.
 replicas: 1
 
@@ -8,21 +39,22 @@ image:
   repository: instana/release/selfhosted/operator
   # -- The image tag to use.
   # @default -- Automatically set by the kubectl plugin
-  tag: ""
+  tag: "REPLACE_ME"
 
 # -- The image pull policy.
 imagePullPolicy: IfNotPresent
 
 # -- A list of image pull secrets.
-imagePullSecrets: []
+imagePullSecrets:
+  - name: instana-registry
 
 # -- Overrides the chart's name (instana-operator).
-nameOverride: ""
+nameOverride: "instana-operator"
 
 # -- Overrides the chart's fullname (instana-operator).
-fullnameOverride: ""
+fullnameOverride: "instana-operator"
 
-# -- Specifies a custom cluster domain.
+# -- Specifies a custom cluster domain. cluster.local?? 
 clusterDomain: ""
 
 # -- Additional CLI arguments for the operator process.
