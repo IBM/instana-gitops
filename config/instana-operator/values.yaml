@@ -7,7 +7,8 @@ INSTANA_LICENSE: "REPLACE_ME"
 dbhost: "REPLACE_ME"
 
 storageClassName: "REPLACE_ME"
-#storageSizeInGB : 5
+storageSizeInGB: 5
+
 portalPassword: "passw0rd"
 
 
