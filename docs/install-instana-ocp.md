@@ -71,6 +71,7 @@ Login with `admin` as Username and below Password:
 
 ```sh
 export ARGO_PASSWORD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o "jsonpath={.data['admin\.password']}" | base64 -d)
+echo $ARGO_PASSWORD
 ```
 
 
