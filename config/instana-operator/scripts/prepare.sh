@@ -11,34 +11,35 @@ oc apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/ce
 
 # --
 export dist=$(cat /etc/os-release  | grep "^ID=" | cut -f2 -d= | tr -d '"')
-which expect
+which expect > /dev/null 2>&1
 if [ $? -ne 0 ] ; then
 	if [ "$dist" = "rhel" ] ; then
-		yum install -y expect
-	elif [ "$dist" = "ubuntu" ] ; then
-		apt install -y expect
-	else
-		echo "no expected linux, exit"
-		exit 1
+		yum install -y expect  > /dev/null 2>&1
+    else
+		if [ "$dist" = "ubuntu" ] ; then
+			apt install -y expect  > /dev/null 2>&1
+		else
+			echo "no expected linux, exit"
+			exit 1
+	    fi
 	fi
 fi
 
 if [ ! -x /usr/local/bin/mycertpem.sh ] ; then
-cat << EOF > /usr/local/bin/mycertpem.sh
-#!/usr/bin/expect -f
+echo '#!/usr/bin/expect -f
 
 set timeout -1
-set mypassword [lindex \$argv 0]
-set base [lindex \$argv 1]
+set mypassword [lindex $argv 0]
+set base [lindex $argv 1]
 
 #------- key.pem
 spawn openssl genrsa -aes128 -out key.pem 2048
 
 expect "Enter pass phrase for key.pem:"
-send -- "\$mypassword\r"
+send -- "$mypassword\r"
 
 expect "Verifying - Enter pass phrase for key.pem:"
-send -- "\$mypassword\r"
+send -- "$mypassword\r"
 
 
 #------- cert.pem from key.pem
@@ -46,7 +47,7 @@ puts "\r\r"
 spawn openssl req -new -x509 -key key.pem -out cert.pem -days 365
 
 expect "Enter pass phrase for key.pem"
-send -- "\$mypassword\r"
+send -- "$mypassword\r"
 
 expect "Country Name (2 letter code)"
 send -- "CN\r"
@@ -64,15 +65,17 @@ expect "Organizational Unit Name (eg, section)"
 send -- "CDL\r"
 
 expect "Common Name "
-send -- "instana.\$base\r"
+send -- "instana.$base\r"
 
 expect "Email Address"
 send -- "\r"
 
 expect eof
-EOF
+' > /usr/local/bin/mycertpem.sh
 
 chmod +x /usr/local/bin/mycertpem.sh
+else
+	echo "mycertpem.sh exists." 
 fi
 
 base=`oc get ingresses.config/cluster -o jsonpath={.spec.domain}`
