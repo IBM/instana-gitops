@@ -134,6 +134,8 @@ spec:
                   host: agent.instana.${base}
                   port: 443
                 resourceProfile: small
+                imagePullSecrets:
+                - name: instana-registry
                 # Datastore configs with default ports for each db
                 datastoreConfigs:
                   - type: cassandra
