@@ -1,20 +1,17 @@
 #################################### added for whole with core, unit
 INSTANA_DOWNLOAD_KEY: "REPLACE_ME"
 INSTANA_SALES_KEY: "REPLACE_ME"
-INSTANA_AGENT_KEY: "REPLACE_ME"
+#INSTANA_AGENT_KEY: "REPLACE_ME"
 INSTANA_LICENSE: "REPLACE_ME"
   
 dbhost: "REPLACE_ME"
 
 storageClassName: "REPLACE_ME"
+storageSizeInGB: 5
 
 portalPassword: "passw0rd"
 
 
-
-# kubectl create configmap instana-stuff -n default --from-file=lic=license   --from-file=sppem=sp.pem  
-#instanaLicenseConfigMapName: "instana-license"
-#instanaLicenseConfigMapNS: "default"
 
 #imagePullSecrets:
 #  - name: instana-registry
@@ -39,11 +36,10 @@ image:
   repository: instana/release/selfhosted/operator
   # -- The image tag to use.
   # @default -- Automatically set by the kubectl plugin
-  tag: "REPLACE_ME"
+  tag: "219-0"
 
 # -- The image pull policy.
 imagePullPolicy: IfNotPresent
-
 # -- A list of image pull secrets.
 imagePullSecrets:
   - name: instana-registry
