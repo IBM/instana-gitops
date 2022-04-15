@@ -26,7 +26,7 @@ echo "prepare for installing ... "
 ./prepare.sh
 sleep 3
 
-helm install instana-operator --namespace=instana-operator \
+helm install instana-operator --namespace=instana-operator --timeout 600 --wait \
     --set INSTANA_DOWNLOAD_KEY=$INSTANA_DOWNLOAD_KEY \
     --set INSTANA_SALES_KEY=$INSTANA_SALES_KEY   \
     --set INSTANA_LICENSE=$INSTANA_LICENSE \
@@ -35,6 +35,8 @@ helm install instana-operator --namespace=instana-operator \
     --set portalPassword=$portalPassword ../ 
 
 # wait all pods running and goto ocp route to navigate to instana portal
+echo 
+echo "---------------------------------------------------------------------------------------------------------------------------------------------"
 echo "Now instana helm chart is installed, and you need to wait for all instana resources are created and ready, and this will take about 1 hour.
 
 You can check progress of instana by running:

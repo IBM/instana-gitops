@@ -85,5 +85,5 @@ fi
 /usr/local/bin/mycertpem.sh $portalPassword  $base
 cat key.pem cert.pem > sp.pem
 oc create configmap instana-sppem -n default --from-file=sppem=sp.pem
-
+rm key.pem cert.pem  sp.pem
 
