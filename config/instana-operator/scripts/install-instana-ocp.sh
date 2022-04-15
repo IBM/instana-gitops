@@ -22,6 +22,9 @@ if [ "$portalPassword" = "" ] ; then
   portalPassword=passw0rd
 fi
 
+echo "prepare for installing ... "
+./prepare.sh
+sleep 3
 
 helm install instana-operator --namespace=instana-operator \
     --set INSTANA_DOWNLOAD_KEY=$INSTANA_DOWNLOAD_KEY \
