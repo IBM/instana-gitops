@@ -7,6 +7,7 @@
 | extraArgs | list | `[]` | Additional CLI arguments for the operator process. |
 | extraEnv | list | `[]` | Additional environment variables for the operator process. |
 | fullnameOverride | string | `""` | Overrides the chart's fullname (instana-operator). |
+| hostNetwork | bool | `false` | Use the host's network namespace. Enabling this also sets 'dnsPolicy' to 'ClusterFirstWithHostNet'. |
 | image.registry | string | `"containers.instana.io"` | The image registry to use. |
 | image.repository | string | `"instana/release/selfhosted/operator"` | The image repository to use. |
 | image.tag | string | Automatically set by the kubectl plugin | The image tag to use. |

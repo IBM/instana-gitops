@@ -36,7 +36,7 @@ image:
   repository: instana/release/selfhosted/operator
   # -- The image tag to use.
   # @default -- Automatically set by the kubectl plugin
-  tag: "REPLACE_ME"
+  tag: "219-0"
 
 # -- The image pull policy.
 imagePullPolicy: IfNotPresent
@@ -92,4 +92,5 @@ webhook:
   # -- Base64-encoded CA bundle for the webhook.
   caBundleBase64: ""
 
-
+# -- Use the host's network namespace. Enabling this also sets 'dnsPolicy' to 'ClusterFirstWithHostNet'.
+hostNetwork: false

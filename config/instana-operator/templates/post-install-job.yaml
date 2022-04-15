@@ -103,6 +103,14 @@ spec:
                   --docker-password={{ .Values.INSTANA_DOWNLOAD_KEY }} \
                   --docker-server=containers.instana.io
               kubectl label secret instana-registry app.kubernetes.io/name=instana --namespace instana-core
+
+              # both for instana-units in 219
+              kubectl create secret docker-registry instana-registry --namespace instana-units \
+                  --docker-username=_ \
+                  --docker-password=$INSTANA_DOWNLOAD_KEY \
+                  --docker-server=containers.instana.io
+              kubectl label secret instana-registry app.kubernetes.io/name=instana --namespace instana-units
+
               
               # instana-base
               kubectl create secret generic instana-base --namespace instana-core \
@@ -134,6 +142,8 @@ spec:
                   host: agent.instana.${base}
                   port: 443
                 resourceProfile: small
+                imagePullSecrets:
+                - name: instana-registry
                 # Datastore configs with default ports for each db
                 datastoreConfigs:
                   - type: cassandra
