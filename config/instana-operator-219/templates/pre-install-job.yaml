@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: pre-install
-          image: quay.io/openshift/origin-cli:latest
+          image: quay.io/openshift/origin-cli:4.9
           resources:
             requests:
               memory: "64Mi"
