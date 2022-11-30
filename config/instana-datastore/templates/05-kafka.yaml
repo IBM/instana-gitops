@@ -32,7 +32,7 @@ spec:
           - -c
           - "rm -rf /mnt/data/lost+found"
       containers:
-      - image:{{ .Values.spec.instana_Regisry }}{{.Values.spec.kafka_Image}}
+      - image: {{.Values.spec.instana_Regisry}}{{.Values.spec.kafka_Image}}
         name: kafka
         resources:
           limits:
