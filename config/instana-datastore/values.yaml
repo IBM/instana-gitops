@@ -12,3 +12,4 @@ spec:
   storage_class_block: ibmc-vpc-block-10iops-tier
   instana_Regisry: containers.instana.io/instana/release/product/
   zk_Image: zookeeper:3.7.1_v0.40.0
+  kafka_Image: kafka:3.2.0_v0.54.0
