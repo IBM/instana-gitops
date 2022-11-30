@@ -53,7 +53,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ storage_class_block }}
+  storageClassName: {{ .Values.spec.storage_class_block }}
   volumeMode: Filesystem
 ---
 kind: Service
