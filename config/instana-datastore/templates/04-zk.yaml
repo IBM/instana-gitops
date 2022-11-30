@@ -21,7 +21,7 @@ spec:
       # imagePullSecrets:
       # - name: instana-pullsecret
       containers:
-      - image: {{ .Values.spec.instanaRegisry }}{{.Values.spec.zkImage}}
+      - image: {{ .Values.spec.instana_Regisry }}{{.Values.spec.zk_Image}}
         name: zookeeper
         resources:
           limits:
@@ -41,3 +41,31 @@ spec:
         - name: zookeeper-logs
           persistentVolumeClaim:
             claimName: zookeeper-logs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zookeeper-logs
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ storage_class_block }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: zookeeper-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: zookeeper
+  ports:
+    - protocol: TCP
+      port: 2181
+      targetPort: 2181
+  type: ClusterIP
