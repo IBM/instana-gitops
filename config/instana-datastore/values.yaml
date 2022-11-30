@@ -16,3 +16,4 @@ spec:
   es_Image: elasticsearch:7.16.3_v0.41.0
   cockroachdb_Image: cockroachdb:21.1.7_v0.36.0
   clickhouse_Image: clickhouse:22.3.12.19_v0.48.0
+  cassandra_Image: cassandra:4.0.3_v0.46.0

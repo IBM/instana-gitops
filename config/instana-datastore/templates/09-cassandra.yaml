@@ -1,0 +1,76 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cassandra
+  name: cassandra
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      serviceAccountName: instana-datastore-sa
+      imagePullSecrets:
+      - name: instana-pullsecret
+      containers:
+      - image: {{.Values.spec.instana_Regisry}}{{.Values.spec.cassandra_Image}}
+        name: cassandra
+        ports:
+          - containerPort: 9042
+        env:
+          - name: CASSANDRA_LISTEN_ADDRESS
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - mountPath: /mnt/data
+            name: cassandra-data
+      volumes:
+        - name: cassandra-data
+          persistentVolumeClaim:
+            claimName: cassandra-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cassandra-data
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.spec.storage_class_block }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: cassandra-service
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: cassandra
+  ports:
+    - protocol: TCP
+      port: 9042
+      targetPort: 9042
+  type: ClusterIP
