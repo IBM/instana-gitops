@@ -7,3 +7,5 @@ spec:
   settingsConfigmapNS: crossplane-system
   settingsConfigmapName: instana-settings
   clusterName: demo
+  instanaRegisry: containers.instana.io/instana/release/product/
+  zkImage: zookeeper:3.7.1_v0.40.0
