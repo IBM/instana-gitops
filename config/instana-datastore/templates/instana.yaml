@@ -1,14 +1,14 @@
----
-apiVersion: instana.crossplane.io/v1alpha1
-kind: Instana
-metadata:
-  name: instana
-spec:
-  forProvider:
-    instanaVersion: {{.Values.spec.instanaVersion}}
-    nfsServerHost: {{.Values.spec.nfsServerHost}}
-    settingsConfigmap:
-      name: {{.Values.spec.settingsConfigmapName}}
-      namespace: {{.Values.spec.settingsConfigmapNS}}
-  providerConfigRef:
-    name: {{.Values.spec.clusterName}}-instana-provider-config
+# ---
+# apiVersion: instana.crossplane.io/v1alpha1
+# kind: Instana
+# metadata:
+#   name: instana
+# spec:
+#   forProvider:
+#     instanaVersion: {{.Values.spec.instanaVersion}}
+#     nfsServerHost: {{.Values.spec.nfsServerHost}}
+#     settingsConfigmap:
+#       name: {{.Values.spec.settingsConfigmapName}}
+#       namespace: {{.Values.spec.settingsConfigmapNS}}
+#   providerConfigRef:
+#     name: {{.Values.spec.clusterName}}-instana-provider-config
