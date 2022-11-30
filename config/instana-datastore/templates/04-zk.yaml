@@ -18,8 +18,8 @@ spec:
         app: zookeeper
     spec:
       serviceAccountName: instana-datastore-sa
-      # imagePullSecrets:
-      # - name: instana-pullsecret
+      imagePullSecrets:
+      - name: instana-pullsecret
       containers:
       - image: {{ .Values.spec.instana_Regisry }}{{.Values.spec.zk_Image}}
         name: zookeeper

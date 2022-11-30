@@ -7,6 +7,8 @@ spec:
   settingsConfigmapNS: crossplane-system
   settingsConfigmapName: instana-settings
   clusterName: demo
+  instana_agent_key: qUMhYJxjSv6uZh2SyqTEnw
+
   storage_class_block: ibmc-vpc-block-10iops-tier
   instana_Regisry: containers.instana.io/instana/release/product/
   zk_Image: zookeeper:3.7.1_v0.40.0
