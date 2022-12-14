@@ -4,7 +4,7 @@ kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: argocd
-  name: {{ .Values.namespace.operator }}
+  name: {{ .Values.spec.namespace.operator }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 ---
@@ -13,7 +13,7 @@ kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: argocd
-  name: {{ .Values.namespace.core }}
+  name: {{ .Values.spec.namespace.core }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 ---
@@ -22,6 +22,6 @@ kind: Namespace
 metadata:
   labels:
     kubernetes.io/metadata.name: argocd
-  name: {{ .Values.namespace.units }}
+  name: {{ .Values.spec.namespace.units }}
   annotations:
     argocd.argoproj.io/sync-wave: "-10"

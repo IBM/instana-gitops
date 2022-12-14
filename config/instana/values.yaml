@@ -1,5 +1,5 @@
 ---
-specs:
+spec:
   namespace:
     operator: instana-operator-1
     core: instana-core-1
