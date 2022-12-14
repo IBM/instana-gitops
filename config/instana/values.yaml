@@ -4,8 +4,22 @@ namespace:
   core: instana-core-1
   units: instana-units-1
 
+images:
+  registry: 
+    # The registry name must NOT contain a trailing slash
+    server: containers.instana.io
+    ImagePullSecret:
+      # Leave blank, if no ImagePullSecret is needed.
+      name: instana-registry
+      # If set to false, the gerrit-master chart expects either a ImagePullSecret
+      # with the name configured above to be present on the cluster or that no
+      # credentials are needed.
+      create: true
+      username: _
+      agent_key: agent
+  # version: latest
+  imagePullPolicy: Always
 
-  
 spec:
   kubeConfigSecretNS: crossplane-system
   kubeConfigSecretName: k8s-kubeconfig
