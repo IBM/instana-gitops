@@ -1,4 +1,9 @@
 ---
+namespace:
+  operator: instana-operator-1
+  core: instana-core-1
+  units: instana-units-1
+
 spec:
   kubeConfigSecretNS: crossplane-system
   kubeConfigSecretName: k8s-kubeconfig

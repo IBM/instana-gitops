@@ -3,38 +3,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: elasticsearch
-  name: elasticsearch
+    app: zookeeper
+  name: zookeeper
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: elasticsearch
+      app: zookeeper
   strategy: {}
   template:
     metadata:
       labels:
-        app: elasticsearch
+        app: zookeeper
     spec:
       serviceAccountName: instana-datastore-sa
-      securityContext:
-        fsGroup: 2000
       imagePullSecrets:
       - name: instana-pullsecret
       containers:
-      - image: {{.Values.spec.instana_Regisry}}{{.Values.spec.es_Image}}
-        name: elasticsearch
-        env:
-          - name: LISTEN_ADDR
-            valueFrom:
-              fieldRef:
-                fieldPath: status.podIP
-        ports:
-          - containerPort: 9200
-            name: elastic-9200
-          - containerPort: 9300
-            name: elastic-9300
+      - image: {{ .Values.spec.instana_Regisry }}{{.Values.spec.zookeeper_Image}}
+        name: zookeeper
         resources:
           limits:
             cpu: '8'
@@ -42,18 +30,22 @@ spec:
           requests:
             cpu: '512m'
             memory: 1Gi
+        ports:
+          - containerPort: 2181
         volumeMounts:
-          - mountPath: /mnt/data
-            name: es-data
+          - mountPath: /mnt/logs
+            name: zookeeper-logs
+        securityContext:
+          runAsUser: 0
       volumes:
-        - name: es-data
+        - name: zookeeper-logs
           persistentVolumeClaim:
-            claimName: es-data
+            claimName: zookeeper-logs
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: es-data
+  name: zookeeper-logs
   namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
@@ -67,18 +59,13 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: elasticsearch-service
+  name: zookeeper-service
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
-    app: elasticsearch
+    app: zookeeper
   ports:
     - protocol: TCP
-      port: 9200
-      targetPort: 9200
-      name: elastic-9200
-    - protocol: TCP
-      port: 9300
-      targetPort: 9300
-      name: elastic-9300
+      port: 2181
+      targetPort: 2181
   type: ClusterIP
