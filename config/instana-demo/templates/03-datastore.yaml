@@ -106,7 +106,7 @@ spec:
           - -c
           - "rm -rf /mnt/data/lost+found"
       containers:
-      - image: {{ template "registry" . }}kafka:latest
+      - image: {{ template "registry" . }}kafka{{ template "ds-tag" . }}
         name: kafka
         resources:
           limits:
@@ -204,7 +204,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}elasticsearch:latest
+      - image: {{ template "registry" . }}elasticsearch{{ template "registry" . }}
         name: elasticsearch
         env:
           - name: LISTEN_ADDR
@@ -288,7 +288,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}cockroachdb:latest
+      - image: {{ template "registry" . }}cockroachdb{{ template "registry" . }}
         name: cockroachdb
         resources:
           limits:
@@ -391,7 +391,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}clickhouse:latest
+      - image: {{ template "registry" . }}clickhouse{{ template "registry" . }}
         name: clickhouse
         resources:
           limits:
@@ -494,7 +494,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}cassandra:latest
+      - image: {{ template "registry" . }}cassandra{{ template "registry" . }}
         name: cassandra
         ports:
           - containerPort: 9042
