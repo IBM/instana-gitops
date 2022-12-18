@@ -72,6 +72,9 @@ spec:
       hosts:
         - kafka-service.{{ .Values.namespace.datastore }}.svc
       replicationFactor: 1
+      ports:
+      - name: tcp
+        port: 9092
   enableNetworkPolicies: false
   resourceProfile: small
   rawSpansStorageConfig:
