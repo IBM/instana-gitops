@@ -21,7 +21,7 @@ spec:
       imagePullSecrets:
       - name: instana-pullsecret
       containers:
-      - image: {{ .Values.spec.instana_Regisry }}{{.Values.spec.zookeeper_Image}}
+      - image: {{ .Values.image.repo }}zookeeper:{{.Values.image.zk_tag}}
         name: zookeeper
         resources:
           limits:
@@ -53,7 +53,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ .Values.spec.storage_class_block }}
+  storageClassName: {{ .Values.storage.sc_block }}
   volumeMode: Filesystem
 ---
 kind: Service

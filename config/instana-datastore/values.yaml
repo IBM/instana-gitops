@@ -1,19 +1,14 @@
 ---
+image:
+  # containers.instana.io/instana/release/product/ must add the last "/"
+  repo: containers.instana.io/instana/release/product/
+  zk_tag: 
+  kafka_tag: 
+  es_tag: 
+  cockroachdb_tag: 
+  clickhouse_tag: 
+  cassandra_tag: 
+storage:
+  sc_block: ibmc-block-gold
 spec:
-  kubeConfigSecretNS: crossplane-system
-  kubeConfigSecretName: k8s-kubeconfig
-  instanaVersion: 209-1
-  nfsServerHost: in-kind-instana-db.fyre.ibm.com
-  settingsConfigmapNS: crossplane-system
-  settingsConfigmapName: instana-settings
-  clusterName: demo
   instana_agent_key: qUMhYJxjSv6uZh2SyqTEnw
-
-  storage_class_block: ibmc-vpc-block-10iops-tier
-  instana_Regisry: containers.instana.io/instana/release/product/k8s/
-  zookeeper_Image: zookeeper:3.7.1_v0.40.0
-  kafka_Image: kafka:3.2.0_v0.54.0
-  elasticsearch_Image: elasticsearch:7.16.3_v0.41.0
-  cockroachdb_Image: cockroachdb:21.1.7_v0.36.0
-  clickhouse_Image: clickhouse:22.3.12.19_v0.48.0
-  cassandra_Image: cassandra:4.0.3_v0.46.0

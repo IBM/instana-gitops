@@ -23,7 +23,7 @@ spec:
       imagePullSecrets:
       - name: instana-pullsecret
       containers:
-      - image: {{.Values.spec.instana_Regisry}}{{.Values.spec.elasticsearch_Image}}
+      - image: {{.Values.image.repo}}elasticsearch:{{.Values.image.es_tag}}
         name: elasticsearch
         env:
           - name: LISTEN_ADDR
@@ -61,7 +61,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ .Values.spec.storage_class_block }}
+  storageClassName: {{ .Values.storage.sc_block }}
   volumeMode: Filesystem
 ---
 kind: Service

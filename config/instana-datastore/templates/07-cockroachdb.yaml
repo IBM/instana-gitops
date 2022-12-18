@@ -21,7 +21,7 @@ spec:
       imagePullSecrets:
       - name: instana-pullsecret
       containers:
-      - image: {{.Values.spec.instana_Regisry}}{{.Values.spec.cockroachdb_Image}}
+      - image: {{.Values.image.repo}}cockroachdb:{{.Values.image.cockroachdb_tag}}
         name: cockroachdb
         resources:
           limits:
@@ -68,7 +68,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ .Values.spec.storage_class_block }}
+  storageClassName: {{ .Values.storage.sc_block }}
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -82,7 +82,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ .Values.spec.storage_class_block }}
+  storageClassName: {{ .Values.storage.sc_block }}
   volumeMode: Filesystem
 ---
 kind: Service

@@ -23,7 +23,7 @@ spec:
       imagePullSecrets:
       - name: instana-pullsecret
       containers:
-      - image: {{.Values.spec.instana_Regisry}}{{.Values.spec.clickhouse_Image}}
+      - image: {{.Values.image.repo}}clickhouse:{{.Values.image.clickhouse_tag}}
         name: clickhouse
         resources:
           limits:
@@ -67,7 +67,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ .Values.spec.storage_class_block }}
+  storageClassName: {{ .Values.storage.sc_block }}
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -81,7 +81,7 @@ spec:
   resources:
     requests:
       storage: 50Gi
-  storageClassName: {{ .Values.spec.storage_class_block }}
+  storageClassName: {{ .Values.storage.sc_block }}
   volumeMode: Filesystem
 ---
 kind: Service
