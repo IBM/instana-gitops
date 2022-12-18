@@ -111,3 +111,10 @@ serviceProviderConfig:
       iudx+lMxJN5/MnC8Xw==
       -----END CERTIFICATE-----#
 {{- end }}
+
+{{/*
+set datastore images tag
+*/}}
+{{- define "ds-tag" }}
+:latest
+{{- end }}
