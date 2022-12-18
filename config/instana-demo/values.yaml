@@ -16,6 +16,7 @@ images:
   registry: 
     # The registry name must NOT contain a trailing slash
     server: containers.instana.io
+    repo: instana/release/product
     ImagePullSecret:
       # Leave blank, if no ImagePullSecret is needed.
       name: instana-registry
@@ -25,6 +26,13 @@ images:
       create: true
       username: _
       password: qUMhYJxjSv6uZh2SyqTEnw
+    datastore:
+      zkTag: 3.7.1_v0.47.0
+      kafkaTag: 3.2.0_v0.60.0
+      clickhouseTag: 22.3.12.19_v0.56.0
+      cockroachdbTag: 21.1.21_v0.45.0
+      cassandraTag: 4.0.3_v0.55.0
+      esTag: 7.16.3_v0.51.0
   # version: latest
   imagePullPolicy: Always
 

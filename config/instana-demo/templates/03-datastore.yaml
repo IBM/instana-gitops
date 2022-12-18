@@ -22,7 +22,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: containers.instana.io/instana/release/product/zookeeper
+      - image: {{ include "zk_image" . | trim }}
         name: zookeeper
         resources:
           limits:
@@ -106,7 +106,7 @@ spec:
           - -c
           - "rm -rf /mnt/data/lost+found"
       containers:
-      - image: containers.instana.io/instana/release/product/kafka
+      - image: {{ include "kafka_image" . | trim }}
         name: kafka
         resources:
           limits:
@@ -204,7 +204,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: containers.instana.io/instana/release/product/elasticsearch
+      - image: {{ include "es_image" . | trim }}
         name: elasticsearch
         env:
           - name: LISTEN_ADDR
@@ -288,7 +288,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: containers.instana.io/instana/release/product/cockroachdb
+      - image: {{ include "cockroachdb_image" . | trim }}
         name: cockroachdb
         resources:
           limits:
@@ -391,7 +391,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: containers.instana.io/instana/release/product/clickhouse:22.3.12.19_v0.56.0
+      - image:  {{ include "clickhouse_image" . | trim }}
         name: clickhouse
         resources:
           limits:
@@ -494,7 +494,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: containers.instana.io/instana/release/product/cassandra
+      - image: {{ include "cassandra_image" . | trim }}
         name: cassandra
         ports:
           - containerPort: 9042
