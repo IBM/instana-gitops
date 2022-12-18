@@ -1,0 +1,20 @@
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: unit0-tenant0
+  namespace: instana-core
+spec:
+  host: >-
+    unit0-tenant0.{{ .Values.baseDomain }}
+  to:
+    kind: Service
+    name: gateway
+    weight: 100
+  port:
+    targetPort: https
+  tls:
+    termination: reencrypt
+    destinationCACertificate: "-----BEGIN CERTIFICATE-----\r\nMIIDGTCCAgGgAwIBAgIUNf6SO0/Slchx0beBCPsi43A+Wd0wDQYJKoZIhvcNAQEL\r\nBQAwHDEaMBgGA1UEAwwRKi5hcHBkb21haW4uY2xvdWQwHhcNMjIxMTMwMTMxNDMw\r\nWhcNMzIxMTI3MTMxNDMwWjAcMRowGAYDVQQDDBEqLmFwcGRvbWFpbi5jbG91ZDCC\r\nASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOuoCQ7CEmLQ1o/pQzj3EVML\r\nkjxKOlnsIPdm7PTp8vRYluTah4McIXOUia8Jw6aiUn1I6V90bYXuYlnt9CsH5TwS\r\nQUCXmkdZ/qp+i6AamsK8qLiAN/BnYIztq78aaJ+gOmbu9v71gBObGlrC4lQtVZqB\r\nUgIw6Z4irWMMJA0kUAXM2JaRw+tmlt7NG94edJIP3D911+7XGf6mfcGbelvmiBz7\r\nAs/NgnC4nYI2e8t9QRqYCItjfEFuiGq1KC99hfNkWZcOqSpCPsR+vh/ZTCKpgcEq\r\nMnNgPMYe3Nv1FVLok3yeAInDC4rVJFm6RRP+VT4Wu4djAtaJnLAwyRkHnf+SMPcC\r\nAwEAAaNTMFEwHQYDVR0OBBYEFO/YrLc7vd3Uphi6s8s0pqJ3CSH0MB8GA1UdIwQY\r\nMBaAFO/YrLc7vd3Uphi6s8s0pqJ3CSH0MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZI\r\nhvcNAQELBQADggEBAHp8vHMYuGm+Pt4aIcmKIU3TeuUYfAyZxJGe1xZWjaUnxZDp\r\noj82B+b/hboIxOLngr/kTOZPev4Nl23BCPvEPgvycfRnY9Rai6syX6M0nmjAPTc8\r\nd4EAz0EK/j3hkvz670nchHxEd9sW+Km89QHKmCZ2aDLdNKXuoC4kw/HKUhmPtsyH\r\nDhuc+ubJ/Qg7IAswIW08mZ3LQM+m3uGO7qGdV2URK/SeNbLbzZDga5Dls+q9nGvd\r\nmWaXuMvYyQdhFeM4sOr8O2U0Q6QDkLVAWpo0UnrGloTto4HORcSIZ9uvmhRO5DGA\r\ndTaXs06q0TMUNsaXnqbKG8AUhJdc4OqNEU8+GQc=\r\n-----END CERTIFICATE-----"
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

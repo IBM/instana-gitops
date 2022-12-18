@@ -1,0 +1,549 @@
+---
+# zookeeper
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: zookeeper
+  name: zookeeper
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      serviceAccountName: instana-datastore-sa
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      containers:
+      - image: {{ .Values.image.repo }}zookeeper
+        name: zookeeper
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        ports:
+          - containerPort: 2181
+        volumeMounts:
+          - mountPath: /mnt/logs
+            name: zookeeper-logs
+        securityContext:
+          runAsUser: 0
+      volumes:
+        - name: zookeeper-logs
+          persistentVolumeClaim:
+            claimName: zookeeper-logs
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zookeeper-logs
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: zookeeper-service
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  selector:
+    app: zookeeper
+  ports:
+    - protocol: TCP
+      port: 2181
+      targetPort: 2181
+  type: ClusterIP#  
+
+---
+# kafka
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kafka
+  name: kafka
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      serviceAccountName: instana-datastore-sa
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      initContainers:
+      - image: busybox
+        name: cleanup
+        resources: {}
+        volumeMounts:
+          - mountPath: /mnt/data
+            name: kafka-data
+        command:
+          - sh
+          - -c
+          - "rm -rf /mnt/data/lost+found"
+      containers:
+      - image: {{ template "registry" . }}kafka
+        name: kafka
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        env:
+          - name: ZOOKEEPER_HOST
+            value: zookeeper-service
+          - name: ADVERTISED_LISTENER
+            value: PLAINTEXT://kafka-service.{{ .Values.namespace.datastore }}.svc.cluster.local:9092
+        ports:
+          - containerPort: 9092
+        volumeMounts:
+          - mountPath: /mnt/log
+            name: kafka-logs
+          - mountPath: /mnt/data
+            name: kafka-data
+        securityContext:
+          runAsUser: 0
+      volumes:
+        - name: kafka-logs
+          persistentVolumeClaim:
+            claimName: kafka-logs
+        - name: kafka-data
+          persistentVolumeClaim:
+            claimName: kafka-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-logs
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-data
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kafka-service
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  selector:
+    app: kafka
+  ports:
+    - protocol: TCP
+      port: 9092
+      targetPort: 9092
+  type: ClusterIP# 
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: elasticsearch
+  name: elasticsearch
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      serviceAccountName: instana-datastore-sa
+      securityContext:
+        fsGroup: 2000
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      containers:
+      - image: {{ template "registry" . }}elasticsearch
+        name: elasticsearch
+        env:
+          - name: LISTEN_ADDR
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        ports:
+          - containerPort: 9200
+            name: elastic-9200
+          - containerPort: 9300
+            name: elastic-9300
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        volumeMounts:
+          - mountPath: /mnt/data
+            name: es-data
+      volumes:
+        - name: es-data
+          persistentVolumeClaim:
+            claimName: es-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: es-data
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch-service
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  selector:
+    app: elasticsearch
+  ports:
+    - protocol: TCP
+      port: 9200
+      targetPort: 9200
+      name: elastic-9200
+    - protocol: TCP
+      port: 9300
+      targetPort: 9300
+      name: elastic-9300
+  type: ClusterIP#
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cockroachdb
+  name: cockroachdb
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cockroachdb
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cockroachdb
+    spec:
+      serviceAccountName: instana-datastore-sa
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      containers:
+      - image: {{ template "registry" . }}cockroachdb
+        name: cockroachdb
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        ports:
+          - containerPort: 26257
+        env:
+          - name: LISTEN_ADDR
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        # command:
+        #   - sh
+        #   - -c 
+        #   - "/opt/instana/cockroachdb/cockroach start-single-node --store=/mnt/data --log-dir=/mnt/logs --temp-dir=/tmp --port=26257 --http-addr=127.0.0.1:7005 --listen-addr=localhost --insecure --cache=512MiB --max-sql-memory=512Mib"
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - mountPath: /mnt/data
+            name: cockroach-data
+          - mountPath: /mnt/logs
+            name: cockroach-logs
+      volumes:
+        - name: cockroach-data
+          persistentVolumeClaim:
+            claimName: cockroach-data
+        - name: cockroach-logs
+          persistentVolumeClaim:
+            claimName: cockroach-logs
+---
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cockroach-data
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cockroach-logs
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: cockroachdb-service
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  selector:
+    app: cockroachdb
+  ports:
+    - protocol: TCP
+      port: 26257
+      targetPort: 26257
+  type: ClusterIP#   
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clickhouse
+  name: clickhouse
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clickhouse
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+    spec:
+      serviceAccount: instana-datastore-sa
+      securityContext:
+        fsGroup: 2000
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      containers:
+      - image: {{ template "registry" . }}clickhouse
+        name: clickhouse
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        env:
+          - name: ZOOKEEPER_HOST
+            value: zookeeper-service
+        ports:
+          - containerPort: 9000
+            name: clickhouse-9000
+          - containerPort: 8123
+            name: clickhouse-8123
+        volumeMounts:
+          - mountPath: /mnt/data
+            name: clickhouse-data
+          - mountPath: /mnt/logs
+            name: clickhouse-logs
+        securityContext:
+          runAsUser: 0
+          privileged: true
+      volumes:
+        - name: clickhouse-logs
+          persistentVolumeClaim:
+            claimName: clickhouse-logs      
+        - name: clickhouse-data
+          persistentVolumeClaim:
+            claimName: clickhouse-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: clickhouse-logs
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: clickhouse-data
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: clickhouse-service
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  selector:
+    app: clickhouse
+  ports:
+    - protocol: TCP
+      port: 8123
+      targetPort: 8123
+      name: clickhouse-8123
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+      name: clickhouse-9000
+  type: ClusterIP# 
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cassandra
+  name: cassandra
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cassandra
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      serviceAccountName: instana-datastore-sa
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      containers:
+      - image: {{ template "registry" . }}cassandra
+        name: cassandra
+        ports:
+          - containerPort: 9042
+        env:
+          - name: CASSANDRA_LISTEN_ADDRESS
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        resources:
+          limits:
+            cpu: '8'
+            memory: 16Gi
+          requests:
+            cpu: '512m'
+            memory: 1Gi
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - mountPath: /mnt/data
+            name: cassandra-data
+      volumes:
+        - name: cassandra-data
+          persistentVolumeClaim:
+            claimName: cassandra-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cassandra-data
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: {{ .Values.storage.blockClass }}
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: cassandra-service
+  namespace: {{ .Values.namespace.datastore }}
+spec:
+  selector:
+    app: cassandra
+  ports:
+    - protocol: TCP
+      port: 9042
+      targetPort: 9042
+  type: ClusterIP# 

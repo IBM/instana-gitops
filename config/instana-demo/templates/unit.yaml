@@ -1,0 +1,10 @@
+apiVersion: instana.io/v1beta2
+kind: Unit
+metadata:
+  namespace: instana-units
+  name: tenant0-unit0
+spec:
+  coreName: instana-core
+  coreNamespace: instana-core
+  tenantName: tenant0
+  unitName: unit0

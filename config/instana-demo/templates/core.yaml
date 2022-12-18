@@ -1,0 +1,152 @@
+apiVersion: instana.io/v1beta2
+kind: Core
+metadata:
+  namespace: instana-core
+  name: instana-core
+spec:
+  imagePullSecrets:
+    - name: {{ .Values.images.registry.ImagePullSecret.name }}
+  # Base domain for Instana
+  baseDomain: {{ .Values.baseDomain }}
+
+  # Host and port for the agent acceptor, usually a subdomain of the base domain
+  agentAcceptorConfig:
+    host: agent.{{ .Values.baseDomain }}
+    port: 443
+
+  # dockerRegistryURI: containers.instana.io
+  
+  # URL for downloading the GeoLite2 geo-location data file
+  # geoDbUrl:
+  properties:
+  - name: retention.metrics.rollup5
+    value: '86400'
+  - name: retention.metrics.rollup60
+    value: '2678400'
+  - name: retention.metrics.rollup300
+    value: '8035200'
+  - name: retention.metrics.rollup3600
+    value: '34214400'
+  - name: config.appdata.shortterm.retention.days
+    value: '7'
+
+  # Datastore configs
+  datastoreConfigs:
+    cassandraConfigs:
+      - hosts:
+          - cassandra-service.instana-datastores.svc
+        ports:
+          - name: tcp
+            port: 9042
+    clickhouseConfigs:
+      - clusterName: local
+        hosts:
+          - clickhouse-service.instana-datastores.svc
+        ports:
+          - name: tcp
+            port: 9000
+          - name: http
+            port: 8123
+        schemas:
+          - application
+          - logs
+    cockroachdbConfigs:
+      - hosts:
+          - cockroachdb-service.instana-datastores.svc
+        ports:
+          - name: tcp
+            port: 26257
+    elasticsearchConfig:
+      clusterName: onprem_onprem
+      defaultIndexReplicas: 0
+      defaultIndexRoutingPartitionSize: 1
+      defaultIndexShards: 1
+      hosts:
+        - elasticsearch-service.instana-datastores.svc
+      ports:
+        - name: tcp
+          port: 9300
+        - name: http
+          port: 9200
+    kafkaConfig:
+      hosts:
+        - kafka-service.instana-datastores.svc
+      replicationFactor: 1
+  enableNetworkPolicies: false
+  resourceProfile: small
+  rawSpansStorageConfig:
+    pvcConfig:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: {{ .Values.storage.core_size }}
+      storageClassName: {{ .Values.storage.fileClass }}
+  imageConfig: {}
+  emailConfig:
+    smtpConfig:
+      check_server_identity: false
+      from: smtp@example.com
+      host: smtp@example.com
+      port: 465
+      startTLS: false
+      useSSL: true
+  # Use one of smtpConfig or sesConfig
+  # emailConfig:
+    # smtpConfig:
+    #   from:
+    #   host:
+    #   port:
+    #   useSSL: true
+
+    # sesConfig:
+    #   from:
+    #   region:
+    #   returnPath:
+
+
+  # Use one of s3Config, gcloudConfig, or pvcConfig
+  # rawSpansStorageConfig:
+    # s3Config:
+    #   bucket:
+    #   bucketLongTerm:
+    #   endpoint:
+    #   prefix:
+    #   prefixLongTerm:
+    #   region:
+    #   storageClass:
+    #   storageClassLongTerm:
+    #   accessKeyId:
+    #   secretAccessKey:
+
+    # gcloudConfig:
+    #   bucket:
+    #   bucketLongTerm:
+    #   prefix:
+    #   prefixLongTerm:
+    #   storageClass:
+    #   storageClassLongTerm:
+    #   serviceAccountKey:
+
+    # pvcConfig:
+    #   accessModes:
+    #     - ReadWriteMany
+    #   resources:
+    #     requests:
+    #       storage: 100Gi
+    #   storageClassName: my-fast-storage
+
+    # pvcConfig:
+    #   volumeName: my-existing-volume
+    #   storageClassName: ""
+
+  # Service provider configs for SAML or OIDC
+  # serviceProviderConfig:
+    # Base URL (defaults to "/auth")
+    # basePath:
+
+    # The maximum IDP metadata size (defaults to 200000)
+    # maxAuthenticationLifetimeSeconds:
+
+    # The maximum authentication lifetime (defaults to 604800)
+    # maxIDPMetadataSizeInBytes:

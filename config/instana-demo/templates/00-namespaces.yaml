@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/name: instana-operator
+    kubernetes.io/metadata.name: argocd
+  name: {{ .Values.namespace.operator }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/name: instana-core
+    kubernetes.io/metadata.name: argocd
+  name: instana-core
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/name: instana-units
+    kubernetes.io/metadata.name: argocd
+  name: instana-units
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/name: instana-datastore
+    kubernetes.io/metadata.name: argocd
+  name: {{ .Values.namespace.datastore }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
