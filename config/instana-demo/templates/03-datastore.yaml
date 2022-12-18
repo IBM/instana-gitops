@@ -391,7 +391,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: containers.instana.io/instana/release/product/clickhouse
+      - image: containers.instana.io/instana/release/product/clickhouse:22.3.12.19_v0.56.0
         name: clickhouse
         resources:
           limits:
