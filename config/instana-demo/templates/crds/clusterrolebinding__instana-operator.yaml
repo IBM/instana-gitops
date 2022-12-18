@@ -13,4 +13,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: instana-operator
-    namespace: instana-units
+    namespace: instana-operator

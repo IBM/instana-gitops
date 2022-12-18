@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: instana
     app.kubernetes.io/version: 237-3
   name: instana-operator-leader-election
-  namespace: instana-units
+  namespace: instana-operator
 rules:
   - apiGroups:
       - ""

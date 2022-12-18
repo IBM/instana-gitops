@@ -1,8 +1,6 @@
 ---
 namespace:
-  operator: instana-operator
-  datastore: instana-datastore
-
+  datastore: instana-core
   
 baseDomain: itzroks-6620020aow-rkx5jh-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud
 initialAdminUser: admin@instana.local
