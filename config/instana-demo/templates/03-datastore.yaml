@@ -22,7 +22,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}zookeeper{{ template "ds-tag" . }}
+      - image: {{ template "ds-registry" . }}zookeeper{{ template "ds-tag" . }}
         name: zookeeper
         resources:
           limits:
@@ -106,7 +106,7 @@ spec:
           - -c
           - "rm -rf /mnt/data/lost+found"
       containers:
-      - image: {{ template "registry" . }}kafka{{ template "ds-tag" . }}
+      - image: {{ template "ds-registry" . }}kafka{{ template "ds-tag" . }}
         name: kafka
         resources:
           limits:
@@ -204,7 +204,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}elasticsearch{{ template "registry" . }}
+      - image: {{ template "ds-registry" . }}elasticsearch{{ template "ds-tag" . }}
         name: elasticsearch
         env:
           - name: LISTEN_ADDR
@@ -288,7 +288,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}cockroachdb{{ template "registry" . }}
+      - image: {{ template "ds-registry" . }}cockroachdb{{ template "ds-tag" . }}
         name: cockroachdb
         resources:
           limits:
@@ -391,7 +391,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}clickhouse{{ template "registry" . }}
+      - image: {{ template "ds-registry" . }}clickhouse{{ template "ds-tag" . }}
         name: clickhouse
         resources:
           limits:
@@ -494,7 +494,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ template "registry" . }}cassandra{{ template "registry" . }}
+      - image: {{ template "ds-registry" . }}cassandra{{ template "ds-tag" . }}
         name: cassandra
         ports:
           - containerPort: 9042

@@ -13,6 +13,13 @@ Add '/' to registry if needed.
 {{- end }}
 
 {{/*
+Define instana-datastore registry
+*/}}
+{{- define "ds-registry" }}
+{{ if .Values.images.registry.server }}{{- printf "%s/instana/release/product/" .Values.images.registry.server -}}{{end}}
+{{- end }}
+
+{{/*
 Create secret to tenant0-unit0
 */}}
 {{- define "tenant0-Secret" }}
