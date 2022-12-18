@@ -31,8 +31,6 @@ spec:
                   fieldPath: metadata.namespace
           image: containers.instana.io/instana/release/selfhosted/operator:237-3
           imagePullPolicy: IfNotPresent
-          imagePullSecrets:
-          - name:  {{ .Values.images.registry.ImagePullSecret.name }}
           name: instana-operator-webhook
           ports:
             - containerPort: 9443
@@ -63,6 +61,8 @@ spec:
             - mountPath: /tmp
               name: tmpdir
       enableServiceLinks: false
+      imagePullSecrets:
+        - name: {{ .Values.images.registry.ImagePullSecret.name }}
       serviceAccountName: instana-operator-webhook
       volumes:
         - name: cert
