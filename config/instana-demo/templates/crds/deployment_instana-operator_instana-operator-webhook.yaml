@@ -31,6 +31,8 @@ spec:
                   fieldPath: metadata.namespace
           image: containers.instana.io/instana/release/selfhosted/operator:237-3
           imagePullPolicy: IfNotPresent
+          imagePullSecrets:
+          - name: instana-registry
           name: instana-operator-webhook
           ports:
             - containerPort: 9443
