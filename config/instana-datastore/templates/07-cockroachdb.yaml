@@ -21,7 +21,7 @@ spec:
       imagePullSecrets:
       - name: instana-pullsecret
       containers:
-      - image: {{.Values.image.repo}}cockroachdb:{{.Values.image.cockroachdb_tag}}
+      - image: {{.Values.image.repo}}"cockroachdb:"{{.Values.image.cockroachdb_tag}}
         name: cockroachdb
         resources:
           limits:

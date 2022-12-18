@@ -32,7 +32,7 @@ spec:
           - -c
           - "rm -rf /mnt/data/lost+found"
       containers:
-      - image: {{.Values.image.repo}}kafka:{{.Values.image.kafka_tag}}
+      - image: {{.Values.image.repo}}"kafka:"{{.Values.image.kafka_tag}}
         name: kafka
         resources:
           limits:
