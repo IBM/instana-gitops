@@ -22,7 +22,7 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ .Values.image.repo }}zookeeper
+      - image: {{ template "registry" . }}zookeeper
         name: zookeeper
         resources:
           limits:
