@@ -8,7 +8,8 @@ baseDomain: itzroks-6620020aow-3kka1j-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-s
 initialAdminUser: admin@instana.local
 initialAdminPassword: instana
 agent_key: qUMhYJxjSv6uZh2SyqTEnw
-
+sales_key: xxxx
+license: 3f4d7b0dxxxxxxxx65aa3d
 
 
 images:
