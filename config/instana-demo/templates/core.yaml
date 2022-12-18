@@ -34,14 +34,14 @@ spec:
   datastoreConfigs:
     cassandraConfigs:
       - hosts:
-          - cassandra-service.instana-datastores.svc
+          - cassandra-service.{{ .Values.namespace.datastore }}.svc
         ports:
           - name: tcp
             port: 9042
     clickhouseConfigs:
       - clusterName: local
         hosts:
-          - clickhouse-service.instana-datastores.svc
+          - clickhouse-service.{{ .Values.namespace.datastore }}.svc
         ports:
           - name: tcp
             port: 9000
@@ -52,7 +52,7 @@ spec:
           - logs
     cockroachdbConfigs:
       - hosts:
-          - cockroachdb-service.instana-datastores.svc
+          - cockroachdb-service.{{ .Values.namespace.datastore }}.svc
         ports:
           - name: tcp
             port: 26257
@@ -62,7 +62,7 @@ spec:
       defaultIndexRoutingPartitionSize: 1
       defaultIndexShards: 1
       hosts:
-        - elasticsearch-service.instana-datastores.svc
+        - elasticsearch-service.{{ .Values.namespace.datastore }}.svc
       ports:
         - name: tcp
           port: 9300
@@ -70,7 +70,7 @@ spec:
           port: 9200
     kafkaConfig:
       hosts:
-        - kafka-service.instana-datastores.svc
+        - kafka-service.{{ .Values.namespace.datastore }}.svc
       replicationFactor: 1
   enableNetworkPolicies: false
   resourceProfile: small
