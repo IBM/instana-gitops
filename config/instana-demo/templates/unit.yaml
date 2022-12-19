@@ -8,3 +8,4 @@ spec:
   coreNamespace: instana-core
   tenantName: tenant0
   unitName: unit0
+  resourceProfile: small
