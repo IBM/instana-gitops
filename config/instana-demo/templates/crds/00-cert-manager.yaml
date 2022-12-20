@@ -4,9 +4,10 @@ metadata:
   name: ibm-cert-manager-operator
   namespace: openshift-operators
   annotations:
-   " helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install
     "helm.sh/hook-weight": -10
     # argocd.argoproj.io/hook: PreSync
+    # argocd.argoproj.io/sync-wave: "-100"
 spec:
   channel: v3.22
   installPlanApproval: Automatic
