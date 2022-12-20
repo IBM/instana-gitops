@@ -3,6 +3,9 @@ kind: Unit
 metadata:
   namespace: instana-units
   name: tenant0-unit0
+  annotations:
+    # "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "98"
 spec:
   coreName: instana-core
   coreNamespace: instana-core

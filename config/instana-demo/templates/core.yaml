@@ -3,6 +3,11 @@ kind: Core
 metadata:
   namespace: instana-core
   name: instana-core
+  annotations:
+    # "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "98"
+    # argocd.argoproj.io/hook: PreSync
+    # argocd.argoproj.io/sync-wave: "-100"
 spec:
   imagePullSecrets:
     - name: {{ .Values.images.registry.ImagePullSecret.name }}
