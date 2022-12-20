@@ -4,7 +4,7 @@ metadata:
   name: ibm-cert-manager-operator
   namespace: openshift-operators
   annotations:
-    argocd.argoproj.io/sync-wave: "-9"
+    argocd.argoproj.io/hook: PreSync
 spec:
   channel: v3.22
   installPlanApproval: Automatic
