@@ -5,6 +5,7 @@ metadata:
   name: patch-instana-route
   annotations:
     argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/sync-wave: "100"
 spec:
   replicas: 1
   selector:

@@ -8,8 +8,8 @@ metadata:
   name: instana-operator-webhook
   namespace: instana-operator
   annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: -5
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
 spec:
   dnsNames:
     - instana-operator-webhook.instana-operator
