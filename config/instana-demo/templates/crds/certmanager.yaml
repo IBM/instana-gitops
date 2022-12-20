@@ -1,0 +1,15 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: ibm-cert-manager-operator
+  namespace: openshift-operators
+  annotations:
+    helm.sh/hook: pre-install
+    # argocd.argoproj.io/hook: PreSync
+spec:
+  channel: v3.22
+  installPlanApproval: Automatic
+  name: ibm-cert-manager-operator
+  source: ibm-operator-catalog
+  sourceNamespace: openshift-marketplace
+  startingCSV: ibm-cert-manager-operator.v3.24.0
