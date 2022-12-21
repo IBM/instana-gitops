@@ -1,6 +1,6 @@
 ---
 apiVersion: batch/v1
-kind: Job
+kind: CronJob
 metadata:
   name: patch-instana-route
   namespace: openshift-gitops
