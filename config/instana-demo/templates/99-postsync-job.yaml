@@ -18,8 +18,8 @@ spec:
           serviceAccountName: openshift-gitops-argocd-application-controller
           containers:
           - name: job
-          image: quay.io/openshift/origin-cli:4.9
-          command:
+            image: quay.io/openshift/origin-cli:4.9
+            command:
             - /bin/sh
             - -c
             - |
