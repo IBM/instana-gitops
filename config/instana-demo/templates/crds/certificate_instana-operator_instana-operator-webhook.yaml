@@ -1,25 +1,25 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: instana
-    app.kubernetes.io/version: 237-3
-  name: instana-operator-webhook
-  namespace: instana-operator
-  annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-5"
-    # argocd.argoproj.io/hook: PreSync
-    # argocd.argoproj.io/sync-wave: "-5"
-spec:
-  dnsNames:
-    - instana-operator-webhook.instana-operator
-    - instana-operator-webhook.instana-operator.svc
-  issuerRef:
-    kind: Issuer
-    name: instana-operator-webhook
-  secretName: instana-operator-webhook
-  subject:
-    organizations:
-      - instana
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   labels:
+#     app.kubernetes.io/component: webhook
+#     app.kubernetes.io/name: instana
+#     app.kubernetes.io/version: 237-3
+#   name: instana-operator-webhook
+#   namespace: instana-operator
+#   annotations:
+#     "helm.sh/hook": pre-install
+#     "helm.sh/hook-weight": "-5"
+#     # argocd.argoproj.io/hook: PreSync
+#     # argocd.argoproj.io/sync-wave: "-5"
+# spec:
+#   dnsNames:
+#     - instana-operator-webhook.instana-operator
+#     - instana-operator-webhook.instana-operator.svc
+#   issuerRef:
+#     kind: Issuer
+#     name: instana-operator-webhook
+#   secretName: instana-operator-webhook
+#   subject:
+#     organizations:
+#       - instana

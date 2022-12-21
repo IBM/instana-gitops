@@ -8,12 +8,16 @@ metadata:
     argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "99"
 spec:
-  template:
+  schedule: "*/3 * * * *"
+  concurrencyPolicy: Replace
+  jobTemplate:
     spec:
-      restartPolicy: OnFailure
-      serviceAccountName: openshift-gitops-argocd-application-controller
-      containers:
-      - name: job
+      template:
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: openshift-gitops-argocd-application-controller
+          containers:
+          - name: job
         image: quay.io/openshift/origin-cli:4.9
         command:
             - /bin/sh
@@ -28,21 +32,21 @@ spec:
               while true; do
                 if oc get pod -n instana-core | grep -e "^gateway-" | grep "0/1" ; then
                   echo "instana-gateway pod is running, break wait." 
-                  break
+                  oc -n instana-operator scale --replicas=0  deploy/instana-operator
+                  sleep 5
+                  oc -n instana-core get cm/gateway -oyaml > /tmp/cm-gw.yaml
+                  sleep 3
+                  sed -i 's/128/255/g' /tmp/cm-gw.yaml
+                  sleep 3
+                  oc -n instana-core apply -f /tmp/cm-gw.yaml
+                  sleep 3
+                  oc -n instana-core get pod  | grep gateway | awk '{print $1}' | xargs oc -n instana-core delete pod
+                  sleep 3
+                  oc -n instana-operator scale --replicas=1  deploy/instana-operator
                 else
                   echo "waiting until instana-gateway pod running ..."
                   sleep 10
                 fi
               done
               
-              oc -n instana-operator scale --replicas=0  deploy/instana-operator
-              sleep 5
-              oc -n instana-core get cm/gateway -oyaml > /tmp/cm-gw.yaml
-              sleep 3
-              sed -i 's/128/255/g' /tmp/cm-gw.yaml
-              sleep 3
-              oc -n instana-core apply -f /tmp/cm-gw.yaml
-              sleep 3
-              oc -n instana-core get pod  | grep gateway | awk '{print $1}' | xargs oc -n instana-core delete pod
-              sleep 3
-              oc -n instana-operator scale --replicas=1  deploy/instana-operator
+              
