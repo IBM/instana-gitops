@@ -12,25 +12,25 @@ instana-agent:
     # mode: APM
 
     # agent.key is the secret token which your agent uses to authenticate to Instana's servers.
-    # key: null
+    key: uBp4GXpZQpKrHxMXNcvInQ
     # agent.downloadKey is key, sometimes known ass "sales key", that allows you to download,
     # software from Instana.
-    # downloadKey: null
+    downloadKey: uBp4GXpZQpKrHxMXNcvInQ
 
     # Rather than specifying the agent key and optionally the download key, you can "bring your
     # own secret" creating it in the namespace in which you install the `instana-agent` and
     # specify its name in the `keysSecret` field. The secret you create must contains
     # a field called `key` and optionally one called `downloadKey`, which contain, respectively,
     # the values you'd otherwise set in `.agent.key` and `agent.downloadKey`.
-    keysSecret: instana-agent
+    # keysSecret: instana-agent
 
     # agent.listenAddress is the IP address the agent HTTP server will listen to.
     # listenAddress: *
 
     # agent.endpointHost is the hostname of the Instana server your agents will connect to.
-    endpointHost: ec2-3-22-248-37.us-east-2.compute.amazonaws.com
+    endpointHost: ingress-orange-saas.instana.io
     # agent.endpointPort is the port number (as a String) of the Instana server your agents will connect to.
-    endpointPort: 1444
+    endpointPort: 443
 
     # These are additional backends the Instana agent will report to besides
     # the one configured via the `agent.endpointHost`, `agent.endpointPort` and `agent.key` setting
@@ -141,7 +141,7 @@ instana-agent:
 
   cluster:
     # cluster.name represents the name that will be assigned to this cluster in Instana
-    name: ace-ci-cluster
+    name: idp-hub
 
   leaderElector:
     image:
@@ -190,7 +190,7 @@ instana-agent:
 
   zone:
     # zone.name is the custom zone that detected technologies will be assigned to
-    name: wdc-04
+    name: idp-apac
 
   kubernetes:
     # Configures use of a Deployment for the Kubernetes sensor rather than as a potential member of the DaemonSet
