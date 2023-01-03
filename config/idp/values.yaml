@@ -1,10 +1,5 @@
-
-global: {}
-
-service-account:
-  name: instana-agent
-  create: false
-  sccs: ["privileged"]
+# name is the value which will be used as the base resource name for various resources associated with the agent.
+# name: instana-agent
 
 instana-agent:
   agent:
@@ -13,6 +8,7 @@ instana-agent:
 
     # agent.key is the secret token which your agent uses to authenticate to Instana's servers.
     key: uBp4GXpZQpKrHxMXNcvInQ
+
     # agent.downloadKey is key, sometimes known ass "sales key", that allows you to download,
     # software from Instana.
     downloadKey: uBp4GXpZQpKrHxMXNcvInQ
@@ -22,10 +18,10 @@ instana-agent:
     # specify its name in the `keysSecret` field. The secret you create must contains
     # a field called `key` and optionally one called `downloadKey`, which contain, respectively,
     # the values you'd otherwise set in `.agent.key` and `agent.downloadKey`.
-    # keysSecret: instana-agent
+    # keysSecret: null
 
     # agent.listenAddress is the IP address the agent HTTP server will listen to.
-    # listenAddress: *
+    # listenAddress: "*"
 
     # agent.endpointHost is the hostname of the Instana server your agents will connect to.
     endpointHost: ingress-orange-saas.instana.io
@@ -39,9 +35,20 @@ instana-agent:
       #   endpointPort: 443
       #   key: <agent_key>
 
+    # TLS for end-to-end encryption between Instana agent and clients accessing the agent.
+    # The Instana agent does not yet allow enforcing TLS encryption.
+    # TLS is only enabled on a connection when requested by the client.
+    tls:
+      # In order to enable TLS, a secret of type kubernetes.io/tls must be specified.
+      # secretName is the name of the secret that has the relevant files.
+      # secretName: null
+      # Otherwise,  the certificate and the private key must be provided as base64 encoded.
+      # certificate: null
+      # key: null
+
     image:
       # agent.image.name is the name of the container image of the Instana agent.
-      name: instana/agent
+      name: icr.io/instana/agent
       # agent.image.digest is the digest (a.k.a. Image ID) of the agent container image; if specified, it has priority over agent.image.tag, which will be ignored.
       #digest:
       # agent.image.tag is the tag name of the agent container image; if agent.image.digest is specified, this property is ignored.
@@ -64,6 +71,9 @@ instana-agent:
       # agent.pod.annotations are additional annotations to be added to the agent pods.
       annotations: {}
 
+      # agent.pod.labels are additional labels to be added to the agent pods.
+      labels: {}
+
       # agent.pod.tolerations are tolerations to influence agent pod assignment.
       #   https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
       tolerations: []
@@ -80,7 +90,7 @@ instana-agent:
       #   regardless of the kubernetes.deployment.enabled setting
       requests:
         # agent.pod.requests.memory is the requested memory allocation in MiB for the agent pods.
-        memory: 512Mi
+        memory: 768Mi
         # agent.pod.requests.cpu are the requested CPU units allocation for the agent pods.
         cpu: 0.5
       limits:
@@ -119,18 +129,38 @@ instana-agent:
       autoMountConfigEntries: false
 
     configuration_yaml: |
-      com.instana.plugin.mongodb:
-        enabled: false
-      com.instana.plugin.ace:
-        enabled: true
-        poll_rate: 20
-        NodesOrServers: # Multiple Integration node instances or multiple standalone Integration Servers can be specified
-          create-customer-details-rest:  # specify the Integration node name (required)
-                # Following parameters used to acess ACE server's rest api service to retrieve such as status data, configuration data etc
-            restApiPort: '7600'           # ACE server's rest api port (required)     
+      # Manual a-priori configuration. Configuration will be only used when the sensor
+      # is actually installed by the agent.
+      # The commented out example values represent example configuration and are not
+      # necessarily defaults. Defaults are usually 'absent' or mentioned separately.
+      # Changes are hot reloaded unless otherwise mentioned.
 
-      org.ops4j.pax.logging.cfg: 
-        log4j2.logger.instana.level: 'DEBUG'
+      # It is possible to create files called 'configuration-abc.yaml' which are
+      # merged with this file in file system order. So 'configuration-cde.yaml' comes
+      # after 'configuration-abc.yaml'. Only nested structures are merged, values are
+      # overwritten by subsequent configurations.
+
+      # Secrets
+      # To filter sensitive data from collection by the agent, all sensors respect
+      # the following secrets configuration. If a key collected by a sensor matches
+      # an entry from the list, the value is redacted.
+      #com.instana.secrets:
+      #  matcher: 'contains-ignore-case' # 'contains-ignore-case', 'contains', 'regex'
+      #  list:
+      #    - 'key'
+      #    - 'password'
+      #    - 'secret'
+
+      # Host
+      #com.instana.plugin.host:
+      #  tags:
+      #    - 'dev'
+      #    - 'app1'
+
+      # Hardware & Zone
+      #com.instana.plugin.generic.hardware:
+      #  enabled: true # disabled by default
+      #  availability-zone: 'zone'
 
     # agent.redactKubernetesSecrets sets the INSTANA_KUBERNETES_REDACT_SECRETS environment variable.
     # redactKubernetesSecrets: null
@@ -141,25 +171,25 @@ instana-agent:
 
   cluster:
     # cluster.name represents the name that will be assigned to this cluster in Instana
-    name: idp-hub
+    name: hub
 
   leaderElector:
     image:
       # leaderElector.image.name is the name of the container image of the leader elector.
-      name: instana/leader-elector
+      name: icr.io/instana/leader-elector
       # leaderElector.image.digest is the digest (a.k.a. Image ID) of the leader elector container image; if specified, it has priority over leaderElector.image.digest, which will be ignored.
       #digest:
       # leaderElector.image.tag is the tag name of the agent container image; if leaderElector.image.digest is specified, this property is ignored.
-      tag: 0.5.4
+      tag: 0.5.13
     port: 42655
 
   # openshift specifies whether the cluster role should include openshift permissions and other tweaks to the YAML.
   # The chart will try to auto-detect if the cluster is OpenShift, so you will likely not even need to set this explicitly.
-  openshift: true
+  # openshift: true
 
   rbac:
     # Specifies whether RBAC resources should be created
-    create: false
+    create: true
 
   service:
     # Specifies whether to create the instana-agent service to expose within the cluster the Prometheus remote-write, OpenTelemetry GRCP endpoint and other APIs
@@ -190,7 +220,7 @@ instana-agent:
 
   zone:
     # zone.name is the custom zone that detected technologies will be assigned to
-    name: idp-apac
+    name: idp
 
   kubernetes:
     # Configures use of a Deployment for the Kubernetes sensor rather than as a potential member of the DaemonSet
