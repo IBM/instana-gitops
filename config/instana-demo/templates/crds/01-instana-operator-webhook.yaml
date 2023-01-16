@@ -11,7 +11,6 @@ metadata:
   name: instana-operator-webhook
   namespace: instana-operator
   annotations:
-    "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-10"
 data:
   tls.crt: {{ $cert.Cert | b64enc | quote }}
