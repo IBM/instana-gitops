@@ -1,6 +1,6 @@
 ---
 namespace:
-  operator: instana-operator
+  operator: instana-core
   datastore: instana-datastores
 
   

@@ -1,20 +1,21 @@
-# {{- $ca := genCA "instana-webhook-ca" 3650 }}
-# {{- $cn := "instana-operator-webhook" }}
-# {{- $dns1 := printf "%s.%s" $cn .Values.namespace.operator }}
-# {{- $dns2 := printf "%s.%s.svc" $cn .Values.namespace.operator }}
-# {{- $cert := genSignedCert $cn nil (list $dns1 $dns2) 3650 $ca }}
+{{- $ca_crt := include "opeartor-ca-crt" . }}
+{{- $ca_key := include "opeartor-ca-key" . }}
+{{- $ca := buildCustomCert $ca_crt $ca_key }}
+{{- $cn := "instana-operator-webhook" }}
+{{- $dns1 := printf "%s.%s" $cn .Values.namespace.operator }}
+{{- $dns2 := printf "%s.%s.svc" $cn .Values.namespace.operator }}
+{{- $cert := genSignedCert $cn nil (list $dns1 $dns2) 3650 $ca }}
 
 
-# kind: Secret
-# apiVersion: v1
-# metadata:
-#   name: instana-operator-webhook
-#   namespace: instana-operator
-#   annotations:
-#     "helm.sh/hook-weight": "-10"
-# data:
-#   tls.crt: {{ $cert.Cert | b64enc | quote }}
-#   tls.key: {{ $cert.Key | b64enc | quote }}
-#   ca.crt: {{ $ca.Cert | b64enc | quote }}
-# type: kubernetes.io/tls
-
+kind: Secret
+apiVersion: v1
+metadata:
+  name: instana-operator-webhook
+  namespace: instana-operator
+  annotations:
+    "helm.sh/hook-weight": "-10"
+data:
+  tls.crt: {{ $cert.Cert | b64enc | quote }}
+  tls.key: {{ $cert.Key | b64enc | quote }}
+  ca.crt: {{ include "opeartor-ca-crt" . | trim |quote }}
+type: kubernetes.io/tls
