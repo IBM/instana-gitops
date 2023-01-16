@@ -4,6 +4,7 @@ metadata:
   name: openshift-cert-manager-operator
   namespace: openshift-cert-manager-operator
   annotations:
+    "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-10"
 spec:
   channel: tech-preview
