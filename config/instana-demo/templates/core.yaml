@@ -82,7 +82,7 @@ spec:
         port: 9092
   enableNetworkPolicies: false
   resourceProfile: small
-  storageConfig:
+  storageConfigs:
     rawSpans:
       pvcConfig:
         accessModes:
