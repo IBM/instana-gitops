@@ -82,14 +82,15 @@ spec:
         port: 9092
   enableNetworkPolicies: false
   resourceProfile: small
-  rawSpansStorageConfig:
-    pvcConfig:
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: {{ .Values.storage.core_size }}
-      storageClassName: {{ .Values.storage.fileClass }}
+  storageConfig:
+    rawSpans:
+      pvcConfig:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: {{ .Values.storage.core_size }}
+        storageClassName: {{ .Values.storage.fileClass }}
   imageConfig: {}
   emailConfig:
     smtpConfig:
