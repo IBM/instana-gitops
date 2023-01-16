@@ -13,4 +13,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: instana-operator-webhook
-    namespace: instana-core
+    namespace: {{ .Values.namespace.operator }}

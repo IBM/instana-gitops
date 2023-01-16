@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: instana
     app.kubernetes.io/version: 239-0
   name: instana-operator-webhook
-  namespace: instana-core
+  namespace: {{ .Values.namespace.operator }}
 spec:
   ports:
     - name: https

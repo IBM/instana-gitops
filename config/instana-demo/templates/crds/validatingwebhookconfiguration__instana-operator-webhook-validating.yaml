@@ -13,7 +13,7 @@ webhooks:
       caBundle: {{ include "opeartor-ca-crt" . | trim  }}
       service:
         name: instana-operator-webhook
-        namespace: instana-core
+        namespace: {{ .Values.namespace.operator }}
         path: /validate-instana-io-v1beta2-core
     failurePolicy: Fail
     name: vcore.kb.io
@@ -34,7 +34,7 @@ webhooks:
       caBundle: {{ include "opeartor-ca-crt" . | trim  }}
       service:
         name: instana-operator-webhook
-        namespace: instana-core
+        namespace: {{ .Values.namespace.operator }}
         path: /validate-instana-io-v1beta2-unit
     failurePolicy: Fail
     name: vunit.kb.io

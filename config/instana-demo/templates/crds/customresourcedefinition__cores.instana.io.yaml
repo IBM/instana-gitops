@@ -13,7 +13,7 @@ spec:
         caBundle: {{ include "opeartor-ca-crt" . | trim  }}
         service:
           name: instana-operator-webhook
-          namespace: instana-core
+          namespace: {{ .Values.namespace.operator }}
           path: /convert
       conversionReviewVersions:
         - v1
