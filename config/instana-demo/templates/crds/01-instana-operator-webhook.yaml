@@ -11,7 +11,7 @@ kind: Secret
 apiVersion: v1
 metadata:
   name: instana-operator-webhook
-  namespace: instana-operator
+  namespace: instana-core
   annotations:
     "helm.sh/hook-weight": "-10"
 data:
