@@ -38,8 +38,7 @@ spec:
                   fieldPath: metadata.namespace
           image: containers.instana.io/instana/release/selfhosted/operator:239-0
           imagePullPolicy: IfNotPresent
-          imagePullSecrets:
-            - name: {{ .Values.images.registry.ImagePullSecret.name }}
+          
           name: instana-operator
           ports:
             - containerPort: 8081
@@ -68,6 +67,8 @@ spec:
               name: tmpdir
       enableServiceLinks: false
       serviceAccountName: instana-operator
+      imagePullSecrets:
+        - name: {{ .Values.images.registry.ImagePullSecret.name }}
       terminationGracePeriodSeconds: 300
       volumes:
         - emptyDir: {}
