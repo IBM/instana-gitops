@@ -81,8 +81,12 @@ Input parameters as follows when creating application:
 - DESTINATION
   - Cluster URL: https://kubernetes.default.svc
 - HELM
-  - Update based on your cluster configuration
-
+  - baseDomain:  The ocp base domain for route.(techzone: itzroks-6620020aow-52fr63-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud)
+  - agentkey: xxxxxx
+  - saleskey: yyyyyy
+  - license: the content of instana license
+  - storage block class: Confirm exists in OCP
+  - storage file class: Confirm exists in OCP
 ## Verify Instana Installation
 
 Wait a while and check if all pods under namespace `instana-operator`, `instana-core` and `instana-units` and are running well without any crash.
@@ -128,18 +132,10 @@ ui-client-d459dd987-rg4lx                                  1/1     Running   0  
 
 #### UI Verify
 
-From Argo CD UI, you will be able to see there are another two applications added as follows:
+From Argo CD UI, you will be able to see application added as follows:
 
-- There are two applications, one is `instana-parent-app` and another is `instana-instance-app`. The `instana-parent-app` bring up the `instana-instance-app` via the [app-of-apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern).
-
-![all instana apps](images/ocp-instana-apps.png)
-
-- This is the deatail of app `instana-parent-app`, and the following picture describes the [app-of-apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern).
-
-![instana of apps](images/ocp-instana-parent.png)
-
-- The following picture is the detail of the `instana-instance-app`, you can see all of the resources for this app.
-![instana](images/ocp-instana.png)
+- The following picture is the detail of the `instana-server-app`, you can see all of the resources for this app.
+![instana](images/instana-ocp-gitops.png)
 
 ## Access Instana UI
 
