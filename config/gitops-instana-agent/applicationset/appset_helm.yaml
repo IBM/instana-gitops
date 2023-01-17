@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appset-helm
+spec:
+  generators:
+  - matrix:
+      generators:
+        - git:
+            repoURL: https://github.ibm.com/xiaolu/gitops-instana-agent.git
+            revision: HEAD
+            directories:
+              - path: helm-charts/instana-agent
+        - clusters:
+            selector:
+              matchLabels:
+                argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: '{{path.basename}}-{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.ibm.com/xiaolu/gitops-instana-agent.git
+        targetRevision: HEAD
+        path: '{{path}}'
+        helm:
+          valueFiles:
+          - 'values_{{name}}.yaml'
+      destination:
+        server: '{{server}}'
+        namespace: '{{path.basename}}'

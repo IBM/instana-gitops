@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: day1
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: ocp-instana-agent-1
+        url: https://c118-e.us-south.containers.cloud.ibm.com:30088
+      - cluster: ocp-instana-agent-2
+        url: https://c109-e.us-east.containers.cloud.ibm.com:30001
+  template:
+    metadata:
+      name: '{{cluster}}-day1-app'
+    spec:
+      project: default
+      source:
+        repoURL: https://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@github.ibm.com/Jian-Ping-Shu/gitops-instana-agent.git
+        targetRevision: HEAD
+        path: helm-charts/instana-agent
+      destination:
+        server: '{{url}}'
+        namespace: day1

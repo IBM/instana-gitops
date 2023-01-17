@@ -1,0 +1,11 @@
+instana-agent:
+  agent:
+    endpointHost: ingress-pink-saas.instana.rocks
+    endpointPort: 443
+
+  cluster:
+    name: ocp-instana-agent-2
+
+  zone:
+    name: test2
+
