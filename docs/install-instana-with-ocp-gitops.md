@@ -87,6 +87,8 @@ Input parameters as follows when creating application:
   - license: the content of instana license
   - storage block class: Confirm exists in OCP
   - storage file class: Confirm exists in OCP
+  - initialAdminUser: The default user.
+  - initialAdminPassword: The default password of initial admin user (admin@instana.local by default)
 ## Verify Instana Installation
 
 Wait a while and check if all pods under namespace `instana-operator`, `instana-core` and `instana-units` and are running well without any crash.
@@ -148,11 +150,11 @@ instana-core               ingress-core-svc          instana.apps.instana-cluste
 instana-units              unit-ingress-svc          prod-instana.instana.apps.instana-cluster.cp.fyre.ibm.com                              ingress                   8443    passthrough/Redirect   None
 ```
 
-Login to the Instana UI via route `ingress-core-svc`, for example here is `instana.apps.instana-cluster.cp.fyre.ibm.com` in my cluster.
+Login to the Instana UI via route `unit0-tenant0`, for example here is `https://unit0-tenant0.itzroks-6620020aow-52fr63-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-south.containers.appdomain.cloud` in my cluster.
 
 - `User name` is `admin@instana.local` by default
-- `Passowrd` is `<settings.hcl-admin_password>`, here `password` is `passw0rd` for my cluster.
-
+- `Passowrd` is `instana` by default.
+   You can set your password in helm params.
 ![w](images/ocp-instana-login.png)
 
 After click `Sign In`, you will be navigated to the Instan UI as follows.
