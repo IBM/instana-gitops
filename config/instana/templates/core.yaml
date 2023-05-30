@@ -55,12 +55,12 @@ spec:
         schemas:
           - application
           - logs
-    cockroachdbConfigs:
+    postgresConfigs:
       - hosts:
-          - cockroachdb-service.{{ .Values.namespace.datastore }}.svc
+          - postgres-service.{{ .Values.namespace.datastore }}.svc
         ports:
           - name: tcp
-            port: 26257
+            port: 5432
     elasticsearchConfig:
       clusterName: onprem_onprem
       defaultIndexReplicas: 0

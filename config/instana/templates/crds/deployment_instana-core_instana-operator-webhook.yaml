@@ -29,7 +29,7 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
-          image: containers.instana.io/instana/release/selfhosted/operator:239-0
+          image: containers.instana.io/instana/release/selfhosted/operator:{{ .Values.images.registry.tag }}
           imagePullPolicy: IfNotPresent
           
           name: instana-operator-webhook

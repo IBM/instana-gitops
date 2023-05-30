@@ -8,8 +8,8 @@ baseDomain: itzroks-6620020aow-3kka1j-6ccd7f378ae819553d37d5f2ee142bd6-0000.us-s
 initialAdminUser: admin@instana.local
 initialAdminPassword: instana
 agent_key: qUMhYJxjSv6uZh2SyqTEnw
-sales_key: xxxx
-license: 3f4d7b0dxxxxxxxx65aa3d
+sales_key: pgABSBp_SnqIr5oMD68HoQ
+license: 3f4d7b0d2d846efc237171fbf8977b6d086b705daae0388b09b4779955af9b7c73918e7e89736f79d9eb920c7c46be09fa35a6bad911314023d8d90d6847a3df0430c8a2fe0ad347d39951049417b2eb95e7f6029a736363a38720bf53cf73f7e9749ecbbf0ad5ad8f02b7edbe4cc4b36e5e40ddd63b46f0ac1c90df2a48ca6dc19cca4a808d4573936b3cb62384b8c35a1dea7e780673ec84e3a92ce550089a3b95d399798fd87a08854a6fa1ba7a8cdd487ac5e2874acab898fe0c7edbc649e0a9eb6f47cbd190b54f941bb0d0a88dd85c0d4efb28300527a8edb1312af601467aa834de0dd2e5372aebacfd4b41a44aeb4cca4c507af056cd62bd1f65aa3d
 
 
 images:
@@ -17,6 +17,7 @@ images:
     # The registry name must NOT contain a trailing slash
     server: containers.instana.io
     repo: instana/release/product
+    tag: 247-0
     ImagePullSecret:
       # Leave blank, if no ImagePullSecret is needed.
       name: instana-registry
@@ -27,12 +28,12 @@ images:
       username: _
       password: qUMhYJxjSv6uZh2SyqTEnw
     datastore:
-      zkTag: 3.7.1_v0.47.0
-      kafkaTag: 3.2.0_v0.60.0
-      clickhouseTag: 22.3.12.19_v0.56.0
-      cockroachdbTag: 21.1.21_v0.45.0
-      cassandraTag: 4.0.3_v0.55.0
-      esTag: 7.16.3_v0.51.0
+      cassandra: 4.0.7_v0.38.0
+      clickhouse: 22.3.15.33-1-lts-ibm_v0.16.0
+      elasticsearch: 7.16.3_v0.25.0
+      kafka: 3.4.0_v0.27.0
+      postgres: 15.2_v0.32.0
+      zookeeper: 3.7.1_v0.25.0
   # version: latest
   imagePullPolicy: Always
 

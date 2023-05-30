@@ -270,26 +270,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cockroachdb
-  name: cockroachdb
+    app: postgres
+  name: postgres
   namespace: {{ .Values.namespace.datastore }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cockroachdb
+      app: postgres
   strategy: {}
   template:
     metadata:
       labels:
-        app: cockroachdb
+        app: postgres
     spec:
       serviceAccountName: instana-datastore-sa
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       containers:
-      - image: {{ include "cockroachdb_image" . | trim }}
-        name: cockroachdb
+      - image: {{ include "postgres_image" . | trim }}
+        name: postgres
         resources:
           limits:
             cpu: '8'
@@ -298,7 +298,7 @@ spec:
             cpu: '512m'
             memory: 1Gi
         ports:
-          - containerPort: 26257
+          - containerPort: 5432
         env:
           - name: LISTEN_ADDR
             valueFrom:
@@ -311,23 +311,23 @@ spec:
         securityContext:
           runAsUser: 0
         volumeMounts:
-          - mountPath: /mnt/data
-            name: cockroach-data
-          - mountPath: /mnt/logs
-            name: cockroach-logs
+          - mountPath: /var/lib/postgresql/data
+            name: postgres-data
+          # - mountPath: /mnt/logs
+          #   name: postgres-logs
       volumes:
-        - name: cockroach-data
+        - name: postgres-data
           persistentVolumeClaim:
-            claimName: cockroach-data
-        - name: cockroach-logs
-          persistentVolumeClaim:
-            claimName: cockroach-logs
+            claimName: postgres-data
+        # - name: postgres-logs
+        #   persistentVolumeClaim:
+        #     claimName: postgres-logs
 ---
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cockroach-data
+  name: postgres-data
   namespace: {{ .Values.namespace.datastore }}
 spec:
   accessModes:
@@ -341,7 +341,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: cockroach-logs
+  name: postgres-logs
   namespace: {{ .Values.namespace.datastore }}
 spec:
   accessModes:
@@ -355,15 +355,15 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: cockroachdb-service
+  name: postgres-service
   namespace: {{ .Values.namespace.datastore }}
 spec:
   selector:
-    app: cockroachdb
+    app: postgres
   ports:
     - protocol: TCP
-      port: 26257
-      targetPort: 26257
+      port: 5432
+      targetPort: 5432
   type: ClusterIP  
 
 ---
